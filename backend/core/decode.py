@@ -109,7 +109,7 @@ def ldpc_library(custom=None):
     return list(custom or []) + LD.builtin_library()
 
 
-def decode(internal, interleaver=None, truth=None, budget_s=40.0, ldpc_codes=None):
+def decode(internal, interleaver=None, truth=None, budget_s=120.0, ldpc_codes=None):
     t0 = time.time()
     lib = ldpc_library(ldpc_codes)
     log, notes = [], []
@@ -168,7 +168,7 @@ def decode(internal, interleaver=None, truth=None, budget_s=40.0, ldpc_codes=Non
                 L, z, _ = FR.fold_period(x)                          # frame structure: strict + sensitive parts
                 run = frame_run_score(x, L) if L else 0.0
                 return 0.9 * (0.8 * run + 0.2 * min(z, 300.0) / 300.0)
-            off, sc, full = I.align_deinterleave(bt, kind, a, b, sf, seed=seed, budget_s=min(15.0, budget_s / 2), probe=6000)
+            off, sc, full = I.align_deinterleave(bt, kind, a, b, sf, seed=seed, budget_s=min(45.0, budget_s / 2), probe=6000)
             if bestc is None or sc > bestc[0]:
                 bestc = (sc, ci, off, full)
             if sc >= 0.5:

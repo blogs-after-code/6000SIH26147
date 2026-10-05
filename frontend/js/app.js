@@ -21,7 +21,7 @@ async function copyText(text, what) {
     const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
     document.documentElement.setAttribute("data-theme", next);
     try { localStorage.setItem("sanketsetu-theme", next); } catch (e) { /* private mode */ }
-    redrawAll();
+    redrawAll(); drawLandingModel();
   };
 })();
 
@@ -31,12 +31,13 @@ function route() {
   const inApp = h === "analyze";
   $("view-landing").classList.toggle("hidden", inApp);
   $("view-app").classList.toggle("hidden", !inApp);
-  document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("active", a.dataset.nav === (inApp ? "analyze" : h || "home")));
+  document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("active", inApp && a.dataset.nav === "analyze"));
+  if (!inApp && window.spyNav) setTimeout(window.spyNav, 40);
   if (inApp) { window.scrollTo(0, 0); redrawAll(); }
-  else if (["coverage", "report", "how", "limits", "problem", "evidence"].includes(h)) setTimeout(() => { const el = $(h); if (el) el.scrollIntoView({ behavior: "smooth" }); }, 30);
+  else if (["coverage", "report", "how", "limits", "problem", "solution", "model", "home", "try"].includes(h)) setTimeout(() => { const el = $(h); if (el) el.scrollIntoView({ behavior: "smooth" }); }, 30);
   else window.scrollTo(0, 0);
 }
-addEventListener("hashchange", route);
+addEventListener("hashchange", () => { route(); setTimeout(drawLandingModel, 60); });
 
 // ------------------------------------------------------------------ backend status + landing metrics
 let MODELS = null;
@@ -57,26 +58,79 @@ let MODELS = null;
   } else { el.innerHTML = `<span class="dot bad"></span><span>server offline</span>`; }
   try {
     MODELS = await API.models();
-    if (MODELS.rf) $("mRf").textContent = Math.round(MODELS.rf.accuracy * 100) + "%";
-    if (MODELS.cnn_available && MODELS.cnn) {
-      $("mCnn").textContent = Math.round((MODELS.cnn.test_accuracy_ge10dB ?? MODELS.cnn.test_accuracy) * 100) + "%";
-      $("mCnnNote").textContent = `${MODELS.cnn.dataset}, test frames at 10 dB SNR and above. Simulated data.`;
-    } else { $("mCnn").textContent = "not trained"; $("mCnnNote").textContent = "Training notebook for Kaggle is included; see the Models tab for the steps."; }
+    fillModel();
   } catch (e) { /* landing still works */ }
 })();
+
+// ------------------------------------------------------------------ landing: model section (all numbers come from /api/models)
+const pct = (v, d = 0) => (v === null || v === undefined ? "n/a" : (v * 100).toFixed(d) + "%");
+function fillModel() {
+  const m = MODELS; if (!m) return;
+  const set = (id, t) => { const el = $(id); if (el) el.textContent = t; };
+  if (m.rf) set("mRfAcc", pct(m.rf.accuracy, 1));
+  const c = m.cnn;
+  if (m.cnn_available && c) {
+    set("mCnnHi", pct(c.test_accuracy_ge10dB, 1)); set("mCnnAll", pct(c.test_accuracy, 1));
+    set("mTrainN", Number(c.n_train).toLocaleString("en-US")); set("mTestN", Number(c.n_test).toLocaleString("en-US"));
+    set("mArch", c.arch || "1-D ResNet"); set("mEpochs", c.epochs);
+    if (m.cnn_size_bytes) set("mSize", (m.cnn_size_bytes / 1048576).toFixed(1) + " MB");
+    const g = $("clsGrid");
+    if (g && c.class_accuracy_ge10dB) {
+      g.innerHTML = Object.entries(c.class_accuracy_ge10dB).map(([n, a]) => `<div class="cls ${a >= 0.95 ? "" : a >= 0.85 ? "mid" : "low"}"><span class="nm">${esc(n)}</span><span class="tr"><i style="width:${(a * 100).toFixed(1)}%"></i></span><span class="pc">${(a * 100).toFixed(0)}%</span></div>`).join("");
+    }
+  } else { ["mCnnHi", "mCnnAll"].forEach((i) => set(i, "n/a")); const g = $("clsGrid"); if (g) g.innerHTML = `<p class="muted">CNN not installed on this server.</p>`; }
+  const t = m.cnn_transfer;
+  if (t) { set("mAgree", pct(t.agreement, 0)); set("mAgreeN", t.n_captures); }
+  drawLandingModel();
+}
+function drawLandingModel() {
+  const m = MODELS; if (!m || $("view-landing").classList.contains("hidden")) return;
+  if (m.cnn_available && m.cnn && $("cLandCnn")) Plots.accuracyCurve($("cLandCnn"), m.cnn.accuracy_by_snr.map((b) => ({ snr: b.snr, acc: b.acc })), "test accuracy by SNR", "blue");
+  if (m.rf && $("cLandRf")) Plots.accuracyCurve($("cLandRf"), m.rf.accuracy_by_esn0_db.filter((b) => b.accuracy !== null).map((b) => ({ snr: (b.esn0_range[0] + b.esn0_range[1]) / 2, acc: b.accuracy })), "accuracy by symbol SNR (Es/N0)", "green");
+}
 
 // ------------------------------------------------------------------ state
 const S = { session: null, spec: null, demod: null, decode: null, label: "", file: null, tab: "overview", busy: false, times: {} };
 
 // ------------------------------------------------------------------ pipeline rail
-const STEPS = [["Ingest .IQ / .wav", ""], ["Signal parameters", ""], ["Symbol timing", ""], ["Demodulate", ""], ["De-interleave", ""], ["FEC decode", ""], ["Bit-stream correlation", ""]];
+const STEPS = [
+  ["Ingest .IQ / .wav", "Read the file and convert it to complex samples"],
+  ["Signal parameters", "Centre frequency, bandwidth, SNR and spectrum"],
+  ["Symbol timing", "Find the symbol rate and the sampling instant"],
+  ["Demodulate", "Recover the carrier, identify the modulation, draw the constellation"],
+  ["De-interleave", "Undo the interleaver, if one is set"],
+  ["FEC decode", "Viterbi, Reed-Solomon and LDPC decoding"],
+  ["Bit-stream correlation", "Frame length, sync word, header and payload"],
+];
+function railSubs() {
+  const r = S.demod, d = S.decode, sp = S.spec, out = [];
+  if (sp && sp.fs) out[0] = fmtHz(sp.fs) + " sampling rate";
+  if (r) {
+    out[2] = fmtHz(r.symbol_rate) + " symbol rate";
+    const tp = topProb(r);
+    out[3] = r.modulation + (tp ? `, ${Math.round(tp[1] * 100)}% confidence` : "");
+  }
+  if (d) {
+    const il = d.interleaver || {}, cv = d.conv || {}, rs = d.rs || {}, ld = d.ldpc || {}, fr = d.frame || {};
+    out[4] = il.kind && il.kind !== "none" ? `${il.kind} ${il.a}x${il.b}${il.found ? "" : ", no structure"}` : "none set";
+    const parts = [cv.found ? `conv K=${cv.K}` : "", rs.found ? `RS(${rs.n}${rs.k ? "," + rs.k : ""})` : "", ld.found ? "LDPC" : ""].filter(Boolean);
+    out[5] = parts.length ? parts.join(" + ") : "no code found";
+    out[6] = fr.found ? `${fr.frame_len}-bit frames, ${fr.sync_name || "sync " + fr.sync_hex}` : "no repeating frame";
+  }
+  return out;
+}
 function renderRail(states, subs) {
-  $("railSteps").innerHTML = STEPS.map(([n], i) => {
+  const live = subs || railSubs();
+  $("railSteps").innerHTML = STEPS.map(([n, desc], i) => {
     const st = (states && states[i]) || "later";
-    const ic = st === "done" ? "&#10003;" : st === "fail" ? "!" : st === "skip" ? "&ndash;" : "";
-    const sub = (subs && subs[i]) || "", tm = (S.times && S.times[i]) ? S.times[i] : "";
-    return `<li class="${st}"><span class="ic">${ic}</span><span>${n}${sub ? `<span class="sub">${esc(sub)}</span>` : ""}</span><span class="tm">${tm}</span></li>`;
+    const ic = st === "done" ? "&#10003;" : st === "fail" ? "!" : st === "skip" ? "&ndash;" : st === "active" ? "" : i + 1;
+    const sub = st === "active" ? desc : st === "later" ? "" : (live[i] || (st === "skip" ? "not needed" : ""));
+    const tm = (S.times && S.times[i]) ? S.times[i] : "";
+    return `<li class="${st}"${st === "active" ? ' aria-current="step"' : ""}><span class="ic">${ic}</span><span class="nm">${n}${sub ? `<span class="sub">${esc(sub)}</span>` : ""}</span><span class="tm">${tm}</span></li>`;
   }).join("");
+  const n = (states || []).filter((x) => x === "done" || x === "skip").length;
+  $("pipeCount").textContent = n + " / " + STEPS.length;
+  $("pipeSeg").innerHTML = STEPS.map((_, i) => `<i class="${(states && states[i]) || ""}"></i>`).join("");
 }
 renderRail([]);
 
@@ -88,10 +142,12 @@ function drawAlerts() {
 }
 $("alerts").addEventListener("click", (e) => { const b = e.target.closest("[data-dismiss]"); if (b) { alerts.splice(+b.dataset.dismiss, 1); drawAlerts(); } });
 let ticker = null, t0 = 0;
-function progress(text) {
+function progress(text, stage, tags, stageLabel, title) {
   const p = $("progress");
   if (!text) { p.classList.add("hidden"); clearInterval(ticker); return; }
   $("progressText").textContent = text; p.classList.remove("hidden");
+  if (stage !== undefined) { $("pgStage").textContent = stageLabel || `Stage ${stage + 1} of ${STEPS.length}`; $("pgTitle").textContent = title || STEPS[stage][0]; }
+  $("pgTags").innerHTML = tags ? `<span class="pg-lbl">Trying</span>` + tags.map((t) => `<span class="pg-tag">${esc(t)}</span>`).join("") : "";
   if (!ticker) { t0 = Date.now(); }
   clearInterval(ticker); ticker = setInterval(() => { $("progressTime").textContent = Math.round((Date.now() - t0) / 1000) + "s"; }, 500);
 }
@@ -173,13 +229,14 @@ $("redecodeBtn").onclick = async () => { try { await runDecode(); } catch (e) { 
 function fail(e) {
   const states = [...document.querySelectorAll("#railSteps li")].map((li) => (li.classList.contains("done") ? "done" : li.classList.contains("active") ? "fail" : "later"));
   renderRail(states); endProgress(); S.busy = false;
+  if (S.session && S.demod) $("reportBar").classList.remove("hidden");
   setAlerts([{ level: "err", title: "Analysis stopped.", text: e.message }]);
 }
 async function run(loader, label) {
   if (S.busy) return; S.busy = true; S.times = {}; S.label = label;
   setAlerts([]); S.demod = S.decode = null;
   try {
-    renderRail(["active"]); progress("Loading and normalising the file...");
+    renderRail(["active"]); progress("Loading and normalising the file...", 0);
     const t = Date.now(); const d = await loader(); S.session = d.session; S.spec = d;
     S.times[1] = ((Date.now() - t) / 1000).toFixed(1) + "s";
     $("viewInput").classList.add("hidden"); $("viewResults").classList.remove("hidden");
@@ -190,17 +247,17 @@ async function run(loader, label) {
   } catch (e) { fail(e); }
 }
 async function runDemod(over) {
-  renderRail(["done", "done", "active"]); progress("Estimating symbol rate and recovering timing...");
+  renderRail(["done", "done", "active"]); progress("Estimating the symbol rate and recovering symbol timing...", 2);
   const t = Date.now(); const p = API.demod(S.session, over);
-  await sleep(250); renderRail(["done", "done", "done", "active"]); progress("Recovering carrier, classifying the modulation, demodulating...");
+  await sleep(250); renderRail(["done", "done", "done", "active"]); progress("Recovering the carrier, classifying the modulation, demodulating...", 3);
   S.demod = await p; S.decode = null; S.times[3] = ((Date.now() - t) / 1000).toFixed(1) + "s";
   renderAll();
 }
 async function runDecode() {
-  renderRail(["done", "done", "done", "done", "active"]); progress("Decoding: bit mapping, de-interleaving, error correction, framing (up to ~30 s)...");
+  renderRail(["done", "done", "done", "done", "active", "active", "active"]); $("reportBar").classList.add("hidden"); progress("The decoder tries each option on the demodulated bits. This can take up to about 30 seconds.", 4, ["Bit mapping", "De-interleaving", "Convolutional code", "Reed-Solomon", "LDPC", "Framing"], "Stages 5 to 7 of 7", "Decoding the bit stream");
   const il = $("xIl").value, body = il === "none" ? {} : { interleaver: { kind: il, a: +$("xIa").value, b: +$("xIb").value, seed: +$("xSeed").value || 1 } };
   const t = Date.now(); S.decode = await API.decode(S.session, body); S.times[6] = ((Date.now() - t) / 1000).toFixed(1) + "s";
-  endProgress(); renderRail(railStates()); renderAll();
+  endProgress(); renderRail(railStates()); renderAll(); $("reportBar").classList.remove("hidden");
 }
 function railStates() {
   const d = S.decode, il = d && d.interleaver || {}, cv = d && d.conv || {}, rs = d && d.rs || {}, fr = d && d.frame || {}, ld = d && d.ldpc || {};
@@ -393,11 +450,14 @@ function drawTab(name) {
   } else if (name === "decode") {
     if (d && d.frame && d.frame.found && d.frame.columns) Plots.frameColumns($("cFrame"), d.frame); else Plots.empty($("cFrame"), d ? "no repeating frame structure found" : "decoding...");
   } else if (name === "models" && MODELS) {
-    if (MODELS.rf && $("cRf")) Plots.accuracyCurve($("cRf"), MODELS.rf.accuracy_by_esn0_db.filter((b) => b.accuracy !== null).map((b) => ({ snr: (b.esn0_range[0] + b.esn0_range[1]) / 2, acc: b.accuracy })), "accuracy by symbol SNR (Es/N0)");
-    if (MODELS.cnn_available && $("cCnn")) Plots.accuracyCurve($("cCnn"), MODELS.cnn.accuracy_by_snr.map((b) => ({ snr: b.snr, acc: b.acc })), "test accuracy by SNR");
+    if (MODELS.rf && $("cRf")) Plots.accuracyCurve($("cRf"), MODELS.rf.accuracy_by_esn0_db.filter((b) => b.accuracy !== null).map((b) => ({ snr: (b.esn0_range[0] + b.esn0_range[1]) / 2, acc: b.accuracy })), "accuracy by symbol SNR (Es/N0)", "green");
+    if (MODELS.cnn_available && $("cCnn")) Plots.accuracyCurve($("cCnn"), MODELS.cnn.accuracy_by_snr.map((b) => ({ snr: b.snr, acc: b.acc })), "test accuracy by SNR", "blue");
   }
 }
 function redrawAll() { if (!$("view-app").classList.contains("hidden") && S.spec) drawTab(S.tab); }
-let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(redrawAll, 150); });
+let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { redrawAll(); drawLandingModel(); }, 150); });
 
 route();
+
+// canvas text uses the web fonts: redraw once they have loaded
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { try { redrawAll(); drawLandingModel(); } catch (e) { /* ignore */ } });

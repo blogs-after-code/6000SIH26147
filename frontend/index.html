@@ -6,17 +6,19 @@
 <title>SanketSetu: automated analysis of .IQ and .wav files</title>
 <meta name="description" content="SanketSetu is an automated model for analysis of .IQ and .wav files along with signal parameter extraction: modulation, FEC and interleaving identification, demodulation, decoding, bit-stream correlation and a downloadable PDF report.">
 <meta name="theme-color" content="#e8741a">
-<link rel="stylesheet" href="css/loader.css?v=6">
-<script src="js/boot.js?v=6"></script>
+<link rel="stylesheet" href="css/loader.css?v=9">
+<script src="js/boot.js?v=9"></script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+Devanagari:wght@600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+Devanagari:wght@600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="css/style.css?v=6">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Devanagari:wght@600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Devanagari:wght@600&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="css/style.css?v=9">
+<link rel="stylesheet" href="css/sections.css?v=9">
+<link rel="stylesheet" href="css/responsive.css?v=9">
 </head>
 <body>
 
@@ -47,37 +49,42 @@
       <svg viewBox="0 0 64 64" aria-hidden="true"><use href="#ss-logo"/></svg>
       SanketSetu
     </a>
-    <nav class="nav" aria-label="Main">
+    <nav class="nav" id="nav" aria-label="Main">
       <a href="#/" data-nav="home">Overview</a>
-      <a href="#/coverage" data-nav="coverage">Features</a>
-      <a href="#/report" data-nav="report">PDF report</a>
+      <a href="#/problem" data-nav="problem">Problem</a>
+      <a href="#/solution" data-nav="solution">Solution</a>
+      <a href="#/coverage" data-nav="coverage">Capabilities</a>
+      <a href="#/model" data-nav="model">AI Model</a>
+      <a href="#/report" data-nav="report">PDF Report</a>
       <a href="#/how" data-nav="how">How it works</a>
-      <a href="#/limits" data-nav="limits">Limits</a>
-      <a href="#/analyze" data-nav="analyze">Analyzer</a>
+      <a href="#/limits" data-nav="limits">Limitations</a>
+      <a href="#/analyze" data-nav="analyze" class="nav-cta">Open Analyzer</a>
     </nav>
     <div class="grow"></div>
     <div class="status-dot" id="apiStatus" title="Backend status"><span class="dot"></span><span>checking</span></div>
     <button class="icon-btn" id="themeBtn" aria-label="Switch colour theme" title="Switch colour theme">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
     </button>
+    <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav" type="button">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path class="m-open" d="M4 7h16M4 12h16M4 17h16"/><path class="m-close" d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
   </div>
 </header>
 
 <!-- ============================== LANDING ============================== -->
 <div id="view-landing">
-  <section class="hero">
+  <section class="hero" id="home">
     <div class="wrap hero-grid">
       <div>
         <div class="eyebrow rise" style="--d:0ms">Smart India Hackathon 2026 &middot; Space Technology</div>
         <div class="wordmark rise" style="--d:80ms">SanketSetu <span lang="sa">संकेत सेतु</span></div>
         <h1 class="rise" style="--d:160ms">Automated model for analysis of .IQ and .wav files along with signal parameter extraction</h1>
-        <p class="lead rise" style="--d:240ms">Upload a recording. SanketSetu extracts the signal parameters, identifies the modulation, demodulates it, finds the error-correcting code (convolutional, Reed-Solomon, LDPC) and interleaving, correlates the bit stream to separate header from payload, and recovers the message.</p>
+        <p class="lead rise" style="--d:240ms">Upload a recording. SanketSetu measures the signal, identifies the modulation, removes the interleaving and error correction, separates header from payload, and recovers the message.</p>
         <div class="cta-row rise" style="--d:320ms">
           <a class="btn primary large" href="#/analyze">Analyze a capture</a>
           <a class="btn secondary large" href="#/coverage">See what it does</a>
         </div>
-        <a class="hero-report rise" style="--d:400ms" href="#/report"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><span><b>One-click PDF report</b> of every analysis</span></a>
-        <p class="hero-note rise" style="--d:460ms">No capture to hand? The analyzer can generate a test signal with a known answer, so you can check the result yourself.</p>
+        <p class="hero-note rise" style="--d:400ms">No capture? Generate a test signal with a known answer inside the analyzer.</p>
       </div>
       <div class="console rise" style="--d:260ms" aria-hidden="true">
         <div class="console-bar"><i></i><i></i><i></i><span style="margin-left:8px">live illustration &middot; spectrum and constellation of a noisy QPSK signal</span></div>
@@ -88,69 +95,120 @@
 
   <div class="wave-div" aria-hidden="true"><svg viewBox="0 0 1200 48" preserveAspectRatio="none"><path class="wave-path" d="M0 24.0 L5 20.8 L10 18.5 L15 17.6 L20 18.5 L25 20.9 L30 24.1 L35 27.3 L40 29.6 L45 30.4 L50 29.5 L55 27.1 L60 23.8 L65 20.6 L70 18.3 L75 17.5 L80 18.5 L85 21.0 L90 24.3 L95 27.6 L100 29.9 L105 30.6 L110 29.5 L115 27.0 L120 23.6 L125 20.3 L130 17.9 L135 17.2 L140 18.4 L145 21.1 L150 24.6 L155 28.0 L160 30.3 L165 31.0 L170 29.8 L175 27.0 L180 23.3 L185 19.8 L190 17.4 L195 16.7 L200 18.0 L205 21.0 L210 24.9 L215 28.5 L220 31.1 L225 31.7 L230 30.3 L235 27.1 L240 23.0 L245 19.0 L250 16.4 L255 15.8 L260 17.4 L265 20.8 L270 25.3 L275 29.5 L280 32.3 L285 32.9 L290 31.1 L295 27.3 L300 22.5 L305 17.9 L310 14.9 L315 14.3 L320 16.4 L325 20.6 L330 25.8 L335 30.8 L340 34.0 L345 34.6 L350 32.3 L355 27.6 L360 21.8 L365 16.4 L370 13.0 L375 12.4 L380 15.0 L385 20.2 L390 26.6 L395 32.5 L400 36.2 L405 36.7 L410 33.7 L415 27.9 L420 20.9 L425 14.6 L430 10.7 L435 10.3 L440 13.7 L445 20.0 L450 27.6 L455 34.4 L460 38.5 L465 38.8 L470 35.0 L475 28.1 L480 19.9 L485 12.7 L490 8.4 L495 8.3 L500 12.5 L505 19.9 L510 28.6 L515 36.1 L520 40.5 L525 40.4 L530 35.8 L535 28.0 L540 19.0 L545 11.2 L550 6.9 L555 7.1 L560 12.0 L565 20.2 L570 29.4 L575 37.3 L580 41.5 L585 41.1 L590 35.9 L595 27.6 L600 18.2 L605 10.5 L610 6.3 L615 7.0 L620 12.3 L625 20.7 L630 30.0 L635 37.6 L640 41.5 L645 40.6 L650 35.2 L655 26.9 L660 17.9 L665 10.6 L670 7.0 L675 8.1 L680 13.4 L685 21.5 L690 30.1 L695 37.0 L700 40.2 L705 39.1 L710 33.9 L715 26.1 L720 18.0 L725 11.6 L730 8.7 L735 10.0 L740 14.9 L745 22.2 L750 29.8 L755 35.7 L760 38.2 L765 36.9 L770 32.2 L775 25.4 L780 18.4 L785 13.1 L790 10.9 L795 12.2 L800 16.7 L805 22.9 L810 29.3 L815 34.0 L820 36.0 L825 34.7 L830 30.5 L835 24.8 L840 19.0 L845 14.8 L850 13.1 L855 14.4 L860 18.2 L865 23.4 L870 28.7 L875 32.5 L880 34.0 L885 32.7 L890 29.2 L895 24.4 L900 19.6 L905 16.1 L910 14.9 L915 16.1 L920 19.4 L925 23.8 L930 28.2 L935 31.3 L940 32.4 L945 31.2 L950 28.2 L955 24.0 L960 20.0 L965 17.1 L970 16.2 L975 17.3 L980 20.2 L985 24.1 L990 27.9 L995 30.5 L1000 31.4 L1005 30.3 L1010 27.5 L1015 23.8 L1020 20.2 L1025 17.7 L1030 16.9 L1035 18.1 L1040 20.8 L1045 24.3 L1050 27.7 L1055 30.1 L1060 30.8 L1065 29.7 L1070 27.0 L1075 23.6 L1080 20.3 L1085 18.0 L1090 17.4 L1095 18.5 L1100 21.1 L1105 24.5 L1110 27.7 L1115 29.9 L1120 30.5 L1125 29.3 L1130 26.7 L1135 23.4 L1140 20.3 L1145 18.1 L1150 17.6 L1155 18.8 L1160 21.4 L1165 24.7 L1170 27.8 L1175 29.9 L1180 30.3 L1185 29.1 L1190 26.5 L1195 23.2 L1200 20.1" pathLength="1"/></svg></div>
 
+  <section class="section tone-green" id="problem">
+    <div class="wrap">
+      <div class="eyebrow reveal">Problem</div>
+      <h2 class="reveal">Unknown radio captures take hours to decode by hand.</h2>
+      <p class="lead reveal">HF, VHF and UHF recordings arrive as .IQ or .wav files with no record of how they were made.</p>
+      <div class="grid4">
+        <div class="card tile reveal" style="--d:0ms"><span class="n">01</span><h3>Slow</h3><p>Every parameter is worked out manually, one signal at a time.</p></div>
+        <div class="card tile reveal" style="--d:80ms"><span class="n">02</span><h3>Unlabelled</h3><p>Raw IQ files carry no header, and sensors record different details.</p></div>
+        <div class="card tile reveal" style="--d:160ms"><span class="n">03</span><h3>Two formats</h3><p>IQ and WAV need separate processing paths.</p></div>
+        <div class="card tile reveal" style="--d:240ms"><span class="n">04</span><h3>Uncertain</h3><p>Results are hard to repeat, and nothing says how sure they are.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tone-blue" id="solution">
+    <div class="wrap">
+      <div class="eyebrow reveal">Solution</div>
+      <h2 class="reveal">Upload once. See every feature of the signal.</h2>
+      <p class="lead reveal">Each point of the expected solution, and where to find it in the analyzer.</p>
+      <div class="sol-grid">
+        <ul class="sol-list reveal">
+          <li><span class="sl-n">1</span><div><b>GUI for signal features</b></div><a href="#/analyze">Analyzer</a></li>
+          <li><span class="sl-n">2</span><div><b>Automatic spectral features</b></div><a href="#/analyze">Parameters</a></li>
+          <li><span class="sl-n">3</span><div><b>Constellation plot</b></div><a href="#/analyze">Demodulation</a></li>
+          <li><span class="sl-n">4</span><div><b>Waterfall (time-frequency)</b></div><a href="#/analyze">Parameters</a></li>
+          <li><span class="sl-n">5</span><div><b>FSK, PSK and QAM demodulation</b></div><a href="#/analyze">Demodulation</a></li>
+          <li><span class="sl-n">6</span><div><b>De-interleaving and error correction</b></div><a href="#/analyze">Decode</a></li>
+          <li><span class="sl-n">7</span><div><b>Header and payload from bit-stream correlation</b></div><a href="#/analyze">Decode</a></li>
+        </ul>
+        <figure class="shot shot-main reveal" style="--d:120ms"><img src="assets/shots/analyzer.webp" width="1600" height="1054" alt="The SanketSetu analyzer after a run, showing pipeline steps, summary cards and the recovered message" loading="lazy"><figcaption>Real analyzer output on a generated QPSK signal with LDPC and Reed-Solomon coding.</figcaption></figure>
+      </div>
+      <div class="shots">
+        <figure class="shot reveal"><img src="assets/shots/waterfall.webp" width="1600" height="571" alt="Waterfall plot of signal power over time and frequency" loading="lazy"><figcaption><b>Waterfall</b> &middot; power over time and frequency</figcaption></figure>
+        <figure class="shot reveal" style="--d:100ms"><img src="assets/shots/constellation.webp" width="1012" height="816" alt="Constellation plot with four tight QPSK clusters" loading="lazy"><figcaption><b>Constellation</b> &middot; four tight clusters mean clean QPSK</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="coverage">
     <div class="wrap">
-      <div class="eyebrow reveal">Features</div>
-      <h2 class="reveal">Every task in the problem statement, mapped to a feature you can open.</h2>
-      <p class="lead reveal">The brief asks for five things. Each card uses the brief's own wording, says what SanketSetu does, states plainly what it does not do yet, and points to where you can watch it work.</p>
-      <div class="legend reveal"><span class="chip ok">Working</span><span class="chip warn">Partly: limit stated</span><span class="chip err">Not yet</span></div>
-      <div class="req-stack">
-      <article class="card req reveal" style="--d:0ms">
-        <div class="req-side"><span class="req-n">i.</span><h3>Identify signal parameters</h3><p class="req-brief">Brief: sampling frequency, modulation, FEC, interleaving, and extra features if feasible</p>
-          <p class="req-try"><b>See it:</b> choose the preset <i>Reed-Solomon + convolutional</i>, then open the <i>Overview</i> and <i>Signal parameters</i> tabs.</p><a class="btn secondary small" href="#/analyze">Open the analyzer</a></div>
-        <ul class="req-list"><li><span class="rq-name">Sampling frequency</span><span class="chip ok">Working</span><p>Read from the WAV header. A raw .IQ file does not store it, so you enter it once.</p></li><li><span class="rq-name">Modulation</span><span class="chip ok">Working</span><p>BPSK, QPSK, 8PSK, 16QAM, 2FSK and 4FSK, cross-checked by a CNN trained on public RadioML data.</p></li><li><span class="rq-name">FEC</span><span class="chip ok">Working</span><p>Convolutional code (constraint length up to 9, rate 1/2 or 1/3) and Reed-Solomon code, found blindly from the bits.</p></li><li><span class="rq-name">Interleaving</span><span class="chip warn">Partly</span><p>The start offset is found automatically. The type and size are entered by the operator.</p></li><li><span class="rq-name">Additional features</span><span class="chip ok">Working</span><p>Centre frequency, occupied bandwidth, SNR, symbol rate, samples per symbol, frame length and sync word.</p></li></ul></article>
-      <article class="card req reveal" style="--d:80ms">
-        <div class="req-side"><span class="req-n">ii.</span><h3>Demodulate signals</h3><p class="req-brief">Brief: FSK, QAM, PSK</p>
-          <p class="req-try"><b>See it:</b> pick any modulation in the test-signal generator, then open the <i>Demodulation</i> tab.</p><a class="btn secondary small" href="#/analyze">Open the analyzer</a></div>
-        <ul class="req-list"><li><span class="rq-name">FSK</span><span class="chip ok">Working</span><p>2FSK and 4FSK, with the tones found by clustering.</p></li><li><span class="rq-name">PSK</span><span class="chip ok">Working</span><p>BPSK, QPSK and 8PSK, with timing and carrier recovery.</p></li><li><span class="rq-name">QAM</span><span class="chip warn">Partly</span><p>16QAM works. 64QAM and higher orders are not supported yet.</p></li><li><span class="rq-name">Evidence</span><span class="chip ok">Working</span><p>Constellation, eye diagram, symbol-rate line, error vector magnitude and the downloadable bitstream.</p></li></ul></article>
-      <article class="card req reveal" style="--d:160ms">
-        <div class="req-side"><span class="req-n">iii.</span><h3>Carry out de-interleaving</h3><p class="req-brief">Brief: block, convolutional, diagonal, pseudo-random</p>
-          <p class="req-try"><b>See it:</b> choose the preset <i>Convolutional + block interleaver</i>, then open <i>De-interleave, FEC and correlation</i>.</p><a class="btn secondary small" href="#/analyze">Open the analyzer</a></div>
-        <ul class="req-list"><li><span class="rq-name">Block</span><span class="chip ok">Working</span><p>Rows by columns, any size you enter.</p></li><li><span class="rq-name">Convolutional</span><span class="chip ok">Working</span><p>Forney interleaver with your branch count and memory.</p></li><li><span class="rq-name">Diagonal</span><span class="chip ok">Working</span><p>Diagonal read-out with your row and column count.</p></li><li><span class="rq-name">Pseudo-random</span><span class="chip ok">Working</span><p>Seeded permutation; you enter the seed.</p></li><li><span class="rq-name">Blind discovery</span><span class="chip warn">Partly</span><p>Type and size are supplied by the operator. Only the start offset is searched for.</p></li></ul></article>
-      <article class="card req reveal" style="--d:240ms">
-        <div class="req-side"><span class="req-n">iv.</span><h3>FEC decoding</h3><p class="req-brief">Brief: short-constraint convolutional codes with Viterbi, RS block codes, concatenated codes, LDPC</p>
-          <p class="req-try"><b>See it:</b> choose the preset <i>LDPC code</i> or <i>Reed-Solomon + LDPC</i> and read the decoding cards.</p><a class="btn secondary small" href="#/analyze">Open the analyzer</a></div>
-        <ul class="req-list"><li><span class="rq-name">Convolutional + Viterbi</span><span class="chip ok">Working</span><p>Code polynomials identified blindly, then hard-decision Viterbi decoding.</p></li><li><span class="rq-name">Reed-Solomon</span><span class="chip ok">Working</span><p>RS(255,223), RS(204,188) and shortened codes, with corrected and uncorrectable symbols reported.</p></li><li><span class="rq-name">Concatenated codes</span><span class="chip ok">Working</span><p>Reed-Solomon outside, convolutional inside, decoded end to end.</p></li><li><span class="rq-name">LDPC</span><span class="chip warn">Partly</span><p>Min-sum decoder. Built-in codes are recognised and their start found automatically; for any other code (CCSDS, 5G, Wi-Fi) you upload its parity-check matrix.</p></li></ul></article>
-      <article class="card req reveal" style="--d:320ms">
-        <div class="req-side"><span class="req-n">v.</span><h3>Bit-stream correlation</h3><p class="req-brief">Brief: identify header and payload</p>
-          <p class="req-try"><b>See it:</b> open <i>De-interleave, FEC and correlation</i> and look at the frame-structure chart.</p><a class="btn secondary small" href="#/analyze">Open the analyzer</a></div>
-        <ul class="req-list"><li><span class="rq-name">Frame length</span><span class="chip ok">Working</span><p>Found by folding the bit stream at trial lengths and measuring how well the rows line up.</p></li><li><span class="rq-name">Sync word</span><span class="chip ok">Working</span><p>The repeating pattern is located and named when it is standard, for example the CCSDS marker 1ACFFC1D.</p></li><li><span class="rq-name">Header and payload</span><span class="chip ok">Working</span><p>Columns that stay predictable from frame to frame form the header; the rest is payload.</p></li><li><span class="rq-name">Condition</span><span class="chip warn">Partly</span><p>Needs a repeating sync word and roughly a dozen frames.</p></li></ul></article>
+      <div class="eyebrow reveal">Capabilities</div>
+      <h2 class="reveal">All five tasks in the brief, working today.</h2>
+      <div class="legend reveal"><span class="chip ok">Working</span><span class="chip warn">Partly: limit stated</span></div>
+      <div class="cap-grid">
+        <article class="card cap reveal" style="--d:0ms"><span class="req-n">i.</span><h3>Identify signal parameters</h3>
+          <ul><li><span class="chip ok">Working</span>Sampling frequency, bandwidth, SNR</li><li><span class="chip ok">Working</span>Modulation (6 types)</li><li><span class="chip ok">Working</span>Convolutional and Reed-Solomon codes</li><li><span class="chip warn">Partly</span>Interleaver type and size are entered</li></ul></article>
+        <article class="card cap reveal" style="--d:80ms"><span class="req-n">ii.</span><h3>Demodulate signals</h3>
+          <ul><li><span class="chip ok">Working</span>PSK: BPSK, QPSK, 8PSK</li><li><span class="chip ok">Working</span>FSK: 2FSK, 4FSK</li><li><span class="chip warn">Partly</span>QAM: 16QAM only</li></ul></article>
+        <article class="card cap reveal" style="--d:160ms"><span class="req-n">iii.</span><h3>De-interleave</h3>
+          <ul><li><span class="chip ok">Working</span>Block and convolutional</li><li><span class="chip ok">Working</span>Diagonal and pseudo-random</li><li><span class="chip warn">Partly</span>Start offset found automatically</li></ul></article>
+        <article class="card cap reveal" style="--d:240ms"><span class="req-n">iv.</span><h3>Decode error correction</h3>
+          <ul><li><span class="chip ok">Working</span>Convolutional with Viterbi</li><li><span class="chip ok">Working</span>Reed-Solomon and concatenated</li><li><span class="chip warn">Partly</span>LDPC: built-in codes, others by matrix upload</li></ul></article>
+        <article class="card cap reveal" style="--d:320ms"><span class="req-n">v.</span><h3>Correlate the bit stream</h3>
+          <ul><li><span class="chip ok">Working</span>Frame length and sync word</li><li><span class="chip ok">Working</span>Header and payload split</li><li><span class="chip warn">Partly</span>Needs about a dozen frames</li></ul></article>
       </div>
+    </div>
+  </section>
+
+  <section class="section tone-model" id="model">
+    <div class="wrap">
+      <div class="eyebrow reveal">AI Model</div>
+      <h2 class="reveal">A CNN and a Random Forest check each other.</h2>
+      <p class="lead reveal">The <b class="t-green">Random Forest</b> decides. The <b class="t-blue">CNN</b>, trained on public RadioML data, gives a second opinion. All figures are from simulated signals the models never saw in training.</p>
+
+      <div class="mgrid">
+        <div class="card mcard blue reveal">
+          <div class="mhead"><span class="chip blue">CNN</span><h3>1-D ResNet</h3></div>
+          <div class="mstats">
+            <div><b id="mCnnHi">&ndash;</b><span>at 10 dB SNR and above</span></div>
+            <div><b id="mCnnAll">&ndash;</b><span>across all SNRs (&minus;20 to 30 dB)</span></div>
+          </div>
+          <canvas class="plot" id="cLandCnn" data-h="200" aria-label="CNN test accuracy by SNR"></canvas>
+        </div>
+        <div class="card mcard green reveal" style="--d:100ms">
+          <div class="mhead"><span class="chip green">Features</span><h3>Random Forest</h3></div>
+          <div class="mstats">
+            <div><b id="mRfAcc">&ndash;</b><span>on held-out signals</span></div>
+            <div><b>4</b><span>classes: BPSK, QPSK, 8PSK, 16QAM</span></div>
+          </div>
+          <canvas class="plot" id="cLandRf" data-h="200" aria-label="Random forest accuracy by symbol SNR"></canvas>
+        </div>
+      </div>
+
+      <div class="card reveal" style="margin-top:16px">
+        <div class="card-h"><div><h3>How the CNN was trained</h3></div></div>
+        <div class="card-b"><table class="kv">
+          <tr><td>Dataset</td><td>RadioML 2018.01A: 24 modulations, &minus;20 to 30 dB SNR</td></tr>
+          <tr><td>Frames</td><td><span id="mTrainN">&ndash;</span> train, <span id="mTestN">&ndash;</span> test</td></tr>
+          <tr><td>Input</td><td>1024 I/Q samples, unit RMS</td></tr>
+          <tr><td>Network</td><td><span id="mArch">1-D ResNet</span></td></tr>
+          <tr><td>Training</td><td><span id="mEpochs">25</span> epochs on a Kaggle GPU, with phase and frequency augmentation</td></tr>
+          <tr><td>Deployed as</td><td>ONNX, <span id="mSize">&ndash;</span>, runs on CPU</td></tr>
+        </table></div>
+      </div>
+
+      <p class="model-note reveal"><b>Honest note:</b> on this project's own generated captures the CNN agrees with the truth <span id="mAgree">&ndash;</span> of the time (<span id="mAgreeN">&ndash;</span> captures), so it only cross-checks and never overrides the Random Forest. No real over-the-air capture has been tested yet.</p>
     </div>
   </section>
 
   <section class="section report-sec" id="report">
     <div class="wrap report-grid">
       <div class="reveal">
-        <span class="badge-key">Key feature</span>
-        <h2>One click, and the whole analysis becomes a PDF report.</h2>
-        <p class="lead">Every result in the analyzer can be handed on as a single document, so a finding can be reviewed, filed or attached without taking screenshots.</p>
+        <span class="badge-key">PDF Report</span>
+        <h2>One click turns the analysis into a PDF.</h2>
         <ul class="tick">
-          <li>Capture details: file, sampling rate, duration</li>
-          <li>Measured parameters with the spectrum and waterfall</li>
-          <li>Modulation, symbol rate, signal quality and constellation</li>
-          <li>Decoded FEC, frame structure and the recovered message</li>
-          <li>Every warning, plus a statement of the method's limits</li>
+          <li>Capture details and measured parameters</li>
+          <li>Spectrum, waterfall and constellation</li>
+          <li>Decoded message and frame structure</li>
+          <li>Warnings and limits of the method</li>
         </ul>
-        <div class="cta-row"><a class="btn primary large" href="assets/sample_report.pdf" target="_blank" rel="noopener">Open a sample report</a><a class="btn secondary large" href="#/analyze">Generate your own</a></div>
+        <div class="cta-row"><a class="btn primary large" href="assets/sample_report.pdf" target="_blank" rel="noopener">Open a sample report</a></div>
       </div>
       <div class="report-shot reveal" style="--d:120ms">
-        <img src="assets/report-page-1.png" width="560" height="792" alt="First page of a SanketSetu PDF report showing capture details, measured parameters, power spectrum and waterfall" loading="lazy">
-        <img src="assets/report-page-2.png" width="560" height="792" alt="Second page of a SanketSetu PDF report showing modulation results, constellation, decoding results and the recovered message" loading="lazy">
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="problem">
-    <div class="wrap">
-      <div class="eyebrow reveal">The problem</div>
-      <h2 class="reveal">Raw captures arrive faster than analysts can read them.</h2>
-      <p class="lead reveal">Terrestrial HF, VHF and UHF recordings come from different sensors and places. The parameters that matter are rarely written down.</p>
-      <div class="grid4">
-        <div class="card tile reveal" style="--d:0ms"><span class="n">01</span><h3>Manual analysis</h3><p>Sampling rate, modulation, error correction and interleaving are worked out by hand, one signal at a time.</p></div>
-        <div class="card tile reveal" style="--d:80ms"><span class="n">02</span><h3>Missing parameters</h3><p>A raw IQ file has no header, and different sensors record different parameters.</p></div>
-        <div class="card tile reveal" style="--d:160ms"><span class="n">03</span><h3>Mixed formats</h3><p>IQ and WAV store the same waveform differently and need separate processing paths.</p></div>
-        <div class="card tile reveal" style="--d:240ms"><span class="n">04</span><h3>No confidence score</h3><p>Hand-tuned results are hard to reproduce, and nothing says how sure the answer is.</p></div>
+        <img src="assets/report-page-1.png" width="560" height="792" alt="First page of a SanketSetu PDF report" loading="lazy">
       </div>
     </div>
   </section>
@@ -158,51 +216,34 @@
   <section class="section" id="how">
     <div class="wrap">
       <div class="eyebrow reveal">How it works</div>
-      <h2 class="reveal">One upload, five stages, each one inspectable.</h2>
-      <p class="lead reveal">Nothing is assumed about the signal. Every stage reports what it measured, what it tried, and how confident it is, and any estimate can be overridden by hand.</p>
+      <h2 class="reveal">Five stages, each one inspectable.</h2>
       <div class="flow reveal">
-        <div><h4>1. Ingest</h4><p>WAV (mono or I/Q) and raw IQ in four sample formats become one complex-sample stream.</p><span class="chip ok">live</span></div>
-        <div><h4>2. Identify</h4><p>Centre frequency, bandwidth, SNR, symbol rate and modulation, from a power spectrum and a feature-based classifier, cross-checked by a CNN trained on public data.</p><span class="chip ok">live</span></div>
-        <div><h4>3. Demodulate</h4><p>Timing and carrier recovery, then constellation, eye diagram and the raw bitstream.</p><span class="chip ok">live</span></div>
-        <div><h4>4. De-interleave and decode</h4><p>Resolves bit mapping and phase ambiguity, de-interleaves, and decodes convolutional, LDPC and Reed-Solomon codes.</p><span class="chip ok">live</span></div>
-        <div><h4>5. Correlate and report</h4><p>Finds frame length and sync word, separates header from payload, recovers the message and writes the PDF report.</p><span class="chip ok">live</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="evidence">
-    <div class="wrap">
-      <div class="eyebrow reveal">Evidence</div>
-      <h2 class="reveal">Numbers come with their source.</h2>
-      <p class="lead reveal">Accuracy figures are measured on signals the models never saw in training. Where a number comes from simulated data, the label says so.</p>
-      <div class="grid3">
-        <div class="card metric reveal" style="--d:0ms"><b id="mRf">&ndash;</b><span>Feature-based classifier accuracy</span><small>Held-out signals from this project's own generator. An upper bound for real captures.</small></div>
-        <div class="card metric reveal" style="--d:100ms"><b id="mCnn">&ndash;</b><span>CNN accuracy on RadioML</span><small id="mCnnNote">Public dataset, trained on Kaggle.</small></div>
-        <div class="card metric reveal" style="--d:200ms"><b>6</b><span>Modulations demodulated</span><small>BPSK, QPSK, 8PSK, 16QAM, 2FSK, 4FSK.</small></div>
+        <div><h4>1. Ingest</h4><p>.IQ or .wav becomes one sample stream.</p></div>
+        <div><h4>2. Identify</h4><p>Frequency, bandwidth, SNR, symbol rate, modulation.</p></div>
+        <div><h4>3. Demodulate</h4><p>Constellation, eye diagram, raw bits.</p></div>
+        <div><h4>4. Decode</h4><p>De-interleave, then Viterbi, LDPC and Reed-Solomon.</p></div>
+        <div><h4>5. Correlate</h4><p>Frame, sync word, header, payload, PDF report.</p></div>
       </div>
     </div>
   </section>
 
   <section class="section" id="limits">
     <div class="wrap">
-      <div class="eyebrow reveal">Limits</div>
-      <h2 class="reveal">What it cannot do yet.</h2>
-      <p class="lead reveal">Stated up front, because an operator should know where to stop trusting the output.</p>
+      <div class="eyebrow reveal">Limitations</div>
+      <h2 class="reveal">Know where to stop trusting the output.</h2>
       <ul class="limits">
-        <li class="reveal"><b>Not yet validated on live captures</b>Development and testing so far use generated signals and a public simulated dataset.</li>
-        <li class="reveal" style="--d:60ms"><b>LDPC needs a known parity-check matrix</b>Built-in codes are found automatically; other codes work once you upload their matrix. Recovering an unknown matrix from noisy bits is an open research problem.</li>
-        <li class="reveal" style="--d:120ms"><b>Interleaver type and size are supplied by the operator</b>The start offset is found automatically, the type and size are not.</li>
-        <li class="reveal" style="--d:180ms"><b>Needs a repeating sync word</b>Framing and Reed-Solomon alignment depend on it, with roughly a dozen frames for long frames.</li>
-        <li class="reveal" style="--d:240ms"><b>Convolutional codes up to constraint length 9</b>Rate 1/2 and 1/3, no puncturing, hard-decision decoding.</li>
-        <li class="reveal" style="--d:300ms"><b>One signal per file</b>Overlapping carriers, frequency hopping and OFDM are not handled.</li>
+        <li class="reveal"><b>Not tested on live captures</b>Only generated signals and a public simulated dataset so far.</li>
+        <li class="reveal" style="--d:60ms"><b>LDPC needs a known matrix</b>Built-in codes are found automatically; others need an upload.</li>
+        <li class="reveal" style="--d:120ms"><b>Interleaver set by the operator</b>Only its start offset is found automatically.</li>
+        <li class="reveal" style="--d:180ms"><b>One signal per file</b>No overlapping carriers, hopping or OFDM.</li>
       </ul>
     </div>
   </section>
 
-  <section class="section cta-end" style="border-bottom:0;text-align:center">
+  <section class="section cta-end" id="try" style="border-bottom:0;text-align:center">
     <div class="wrap reveal">
       <h2 style="margin-left:auto;margin-right:auto">Try it on a signal with a known answer.</h2>
-      <p class="lead" style="margin-left:auto;margin-right:auto">Generate a coded test capture, run the analyzer, compare what it finds with the truth, then download the PDF report.</p>
+      <p class="lead" style="margin-left:auto;margin-right:auto">Generate a test capture, run the analyzer, then download the report.</p>
       <a class="btn primary large" href="#/analyze">Open the analyzer</a>
     </div>
   </section>
@@ -213,8 +254,9 @@
 <div id="view-app" class="hidden">
   <div class="app">
     <aside class="rail" aria-label="Progress">
-      <div class="card"><div class="card-b">
-        <p class="section-label">Pipeline</p>
+      <div class="card pipe-card"><div class="card-b">
+        <div class="pipe-head"><p class="section-label">Analysis pipeline</p><span class="pipe-count mono" id="pipeCount">0 / 7</span></div>
+        <div class="pipe-seg" id="pipeSeg" aria-hidden="true"></div>
         <ol class="steps" id="railSteps"></ol>
       </div></div>
       <div class="card" id="railFileCard" style="display:none"><div class="card-b">
@@ -229,7 +271,13 @@
         <div><h1>Analyzer</h1><p id="pageSub">Drop a capture to begin. Every estimate is shown with its evidence and can be overridden.</p></div>
       </div>
 
-      <div class="progress hidden" id="progress" role="status" aria-live="polite"><span id="progressText">Working...</span><div class="bar"></div><span class="t mono" id="progressTime">0s</span></div>
+      <div class="progress hidden" id="progress" role="status" aria-live="polite">
+        <div class="pg-top"><span class="pg-stage mono" id="pgStage">Stage 1 of 7</span><span class="t mono" id="progressTime">0s</span></div>
+        <b class="pg-title" id="pgTitle">Working</b>
+        <span class="pg-text" id="progressText">Working...</span>
+        <div class="bar"></div>
+        <div class="pg-tags" id="pgTags"></div>
+      </div>
       <div class="alerts" id="alerts"></div>
 
       <!-- input -->
@@ -291,7 +339,7 @@
 
       <!-- results -->
       <section id="viewResults" class="hidden">
-        <div class="report-bar"><div><b>Analysis complete.</b> <span class="muted">Download everything below as one PDF report.</span></div>
+        <div class="report-bar hidden" id="reportBar"><div><b>Analysis complete.</b> <span class="muted">Download everything below as one PDF report.</span></div>
           <a class="btn report-btn" id="dlReportTop" href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 11v6m0 0-2.5-2.5M12 17l2.5-2.5"/></svg>Download PDF report</a></div>
         <div class="summary" id="summary"></div>
         <div class="tabs" role="tablist" aria-label="Result sections" id="tabs">
@@ -386,12 +434,13 @@
   </div>
 </div>
 
-<script src="js/config.js?v=6"></script>
-<script src="js/api.js?v=6"></script>
-<script src="js/plots.js?v=6"></script>
-<script src="js/hero.js?v=6"></script>
-<script src="js/app.js?v=6"></script>
-<script src="js/reveal.js?v=6"></script>
-<script src="js/loader.js?v=6"></script>
+<script src="js/config.js?v=9"></script>
+<script src="js/api.js?v=9"></script>
+<script src="js/plots.js?v=9"></script>
+<script src="js/hero.js?v=9"></script>
+<script src="js/app.js?v=9"></script>
+<script src="js/reveal.js?v=9"></script>
+<script src="js/nav.js?v=9"></script>
+<script src="js/loader.js?v=9"></script>
 </body>
 </html>

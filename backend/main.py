@@ -27,7 +27,6 @@ FRONTEND_DIR = os.path.join(ROOT, "frontend")
 REPORT_PATH = os.path.join(ROOT, "backend", "models", "eval_report.json")
 
 app = FastAPI(title="SanketSetu - automated .IQ and .wav analysis")
-
 # The front end may be hosted elsewhere (Vercel). Allow any *.vercel.app page plus any origins listed in CORS_ORIGINS
 # (comma separated, e.g. a custom domain). Same-origin use (local run, or the Render URL itself) needs no CORS.
 _extra = [o.strip().rstrip("/") for o in os.environ.get("CORS_ORIGINS", "").split(",") if o.strip()]
@@ -108,7 +107,8 @@ def models():
     rf = json.load(open(REPORT_PATH)) if os.path.exists(REPORT_PATH) else None
     deep = get_deep()
     return {"rf": rf, "cnn_available": deep.available, "cnn_reason": deep.reason, "cnn": deep.meta,
-            "cnn_file": ONNX_NAME}
+            "cnn_file": ONNX_NAME, "cnn_transfer": getattr(deep, "transfer", None),
+            "cnn_size_bytes": os.path.getsize(os.path.join(os.path.dirname(REPORT_PATH), ONNX_NAME)) if os.path.exists(os.path.join(os.path.dirname(REPORT_PATH), ONNX_NAME)) else None}
 
 
 @app.post("/api/upload")

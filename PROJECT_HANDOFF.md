@@ -50,7 +50,7 @@ unknown and do not put an organisation name in the product or the PPT unless the
 - They provided a design reference (`spectrascope.html`, dark neutral palette with one orange accent) but said it was a
   *reference, not to be copied*. The current UI is its own design system in the same spirit. The product was renamed from
   "Spectrascope" to **SanketSetu**; the developer chose the original orange accent (`#ff8a3d` dark, `#c2410c` light) and the
-  Inter + IBM Plex Mono fonts over a trial of `#9F3F17` and other fonts. Do not change them again unless asked. The UI must **not** imitate a
+  Inter + JetBrains Mono fonts (the mono was changed from IBM Plex Mono at the owner's request) over a trial of `#9F3F17` and other fonts. Do not change them again unless asked. The UI must **not** imitate a
   government site (no ministry names, emblems or mottos).
 - Deliverables still owed by the developer: PPT as **PDF** (max 6 slides including the title, template in section 11) and a
   demo video. The developer asked us to STOP working on the PPT: `deliverables/PPT_BRIEF.md` is a self-contained brief to
@@ -201,6 +201,31 @@ contract with `frontend/js/app.js`; if you change one, change both and the tests
 - Static front-end files are served with `Cache-Control: no-cache` and script URLs carry `?v=6`. Reason: a stale cached `api.js`
   once made the new `app.js` fail with "API.ldpcCodes is not a function". Bump the `?v=` number when front-end files change.
 - Evaluation curves now include LDPC(512,256) and RS(204,188)+LDPC(512,256): full recovery up to ~3-4 % raw BER (own simulator).
+
+## 9d. Added in the Phase 6 session (frontend showcase and mobile)
+- Landing now follows the problem statement: `#problem` (background/description), `#solution` (expected solution mapped to views, with real screenshots in `frontend/assets/shots/*.webp`), `#coverage`, `#model` (CNN and RF accuracy, training recipe, per-class bars, honest caveat; numbers filled from `/api/models`, which now also returns `cnn_transfer` and `cnn_size_bytes`), `#report`.
+- Colours: orange main accent, `--blue` (CNN/data), `--green` (classifier/pass) tokens in `style.css`; only via variables.
+- New files: `css/sections.css`, `css/responsive.css` (breakpoints 1100/860/600/400), `js/nav.js` (hamburger menu). Cache version is `?v=7`.
+- Mobile checked with Playwright at 360, 390, 768, 1366 px in both themes: no horizontal overflow on landing or any analyzer tab. Not tested on a physical phone.
+- Screenshots were captured from the running analyzer (LDPC+RS preset, 14 dB, generated signal); recapture if the UI changes.
+
+## 9e. Deployment (kept intact in Phase 6)
+- The project was deployed as Render (backend, `render.yaml`, `requirements-prod.txt`) plus Vercel (`frontend/`, `vercel.json`, `build-config.mjs` writes `js/config.js` from `API_BASE_URL`). See `DEPLOY.md`.
+- Rules for any frontend change: every backend link or download must go through `API.url(...)`; `js/config.js` must load before `js/api.js`; new static assets live under `frontend/` so Vercel serves them. CORS allows `*.vercel.app` plus `CORS_ORIGINS`.
+- Phase 6 verified in split-origin mode (static server on one port, API on another with CORS): status, model section, a full analysis and the report link all work.
+
+## 9f. Decoder time budget
+- `decode()` searches for the interleaver alignment under a time budget (now 120 s, inner search up to 45 s; it stops early once a clear match is found, so normal speed is unchanged). With the old 40 s / 15 s budget a slow or busy machine (the free Render CPU, a user's laptop under load) ran out of time and reported no message. Reproduced by running the test with 8 busy loops on 2 cores.
+
+## 9g. Landing navigation and pipeline (frontend only)
+- Nav labels equal the section eyebrows: Overview, Problem, Solution, Capabilities, AI Model, PDF Report, How it works, Limitations, Open Analyzer. Section ids are unchanged (`home, problem, solution, coverage, model, report, how, limits`). The old `#evidence` section was removed; its numbers live in AI Model.
+- `js/nav.js` has a scroll-spy: the highlighted link follows the section under the top bar; clicking a link scrolls there even if the URL already matches. The hamburger now appears below 1060 px because nine links do not fit.
+- Analysis pipeline: rail shows 7 stages with description while running, result text when done, a progress bar and count; a stage banner shows the stage and, for decoding (stages 5 to 7), the options being tried. The report bar stays hidden until decoding ends. Cache version `?v=8`.
+- Fixed: `.grow` rule was hiding alert text on phones.
+
+## 9h. Landing trim and polish
+- Landing shortened: fewer images (analyzer, waterfall, constellation, one report page), shorter copy, compact capability cards, no gradient progress bars (pipeline uses seven solid segments), the hero PDF pill removed. Wave divider now reveals with a clip, not a dash animation (the dash version left the line cut short). Cache version `?v=9`.
+- Mono font is JetBrains Mono everywhere (CSS, canvas plots, loader); canvases redraw when web fonts finish loading.
 
 ## 10. Backlog (priority order, with acceptance criteria)
 

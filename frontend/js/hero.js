@@ -49,7 +49,7 @@
       });
     });
     ctx.strokeStyle = line; ctx.strokeRect(wx + .5, wy + .5, ww, wh);
-    ctx.fillStyle = muted; ctx.font = "11px 'IBM Plex Mono', monospace"; ctx.fillText("waterfall", wx + 8, wy + wh - 8);
+    ctx.fillStyle = muted; ctx.font = "11px 'JetBrains Mono', monospace"; ctx.fillText("waterfall", wx + 8, wy + wh - 8);
     // constellation (right)
     const cx = W * 0.52 + (W * 0.48) / 2, cy = H / 2, R = Math.min(W * 0.48, H) * 0.3, sigma = 0.07 + (1 - snr) * 0.34;
     ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(cx - R * 1.5, cy + .5); ctx.lineTo(cx + R * 1.5, cy + .5); ctx.moveTo(cx + .5, cy - R * 1.5); ctx.lineTo(cx + .5, cy + R * 1.5); ctx.stroke();

@@ -14,7 +14,7 @@ html[data-theme="light"] .boot-bar::after{background:#c2410c}
 .boot-logo .b-cab{stroke-dasharray:80;stroke-dashoffset:80;animation:boot-draw 1.3s .4s ease forwards}
 .boot-logo .b-deck{stroke-dasharray:90;stroke-dashoffset:90;animation:boot-draw 1.2s .8s ease forwards,boot-wave 1.6s 2s linear infinite}
 .boot-name{font-size:26px;font-weight:750;letter-spacing:.02em}
-.boot-name small{display:block;margin-top:2px;font:500 12px "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:#9a9fa8}
+.boot-name small{display:block;margin-top:2px;font:500 12px "JetBrains Mono",ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:#9a9fa8}
 .boot-bar{width:220px;height:3px;border-radius:3px;background:rgba(127,127,127,.25);overflow:hidden;position:relative}
 .boot-bar::after{content:"";position:absolute;inset:0;width:38%;background:#e8741a;border-radius:3px;animation:boot-slide 1.3s ease-in-out infinite}
 .boot-msg{min-height:1.5em;color:#9a9fa8;font-size:13px}

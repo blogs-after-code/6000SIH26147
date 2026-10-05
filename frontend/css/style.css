@@ -1,19 +1,21 @@
-/* SanketSetu UI. One accent colour, flat surfaces, high-contrast text, monospace for measurements. */
+/* SanketSetu UI. Orange is the main accent; blue marks the CNN and data, green marks the feature classifier and passing results, flat surfaces, high-contrast text, monospace for measurements. */
 :root{
   --bg:#0c0d0f; --panel:#131519; --panel2:#1a1d22; --line:#2a2e36; --line2:#3b414c;
   --text:#eceef2; --muted:#a3abb7; --faint:#737b88;
   --accent:#ff8a3d; --accent-ink:#1b0f05; --accent-soft:rgba(255,138,61,.14); --accent-text:#ff8a3d;
   --ok:#4cc38a; --warn:#f2b84b; --err:#ff6b6b; --info:#7cb7ff;
+  --blue:#5aa9ff; --blue-soft:rgba(90,169,255,.13); --green:#3ecf8e; --green-soft:rgba(62,207,142,.13);
   --radius:8px; --shadow:0 1px 0 rgba(255,255,255,.03) inset, 0 8px 24px rgba(0,0,0,.35);
   --font:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
   --display:var(--font);
-  --mono:"IBM Plex Mono",ui-monospace,"Cascadia Code",Consolas,monospace;
+  --mono:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;
 }
 :root[data-theme="light"]{
   --bg:#f6f5f2; --panel:#ffffff; --panel2:#efede8; --line:#dcd9d1; --line2:#c4c0b6;
   --text:#1a1b1e; --muted:#51575f; --faint:#7a808a;
   --accent:#c2410c; --accent-ink:#ffffff; --accent-soft:rgba(194,65,12,.1); --accent-text:#c2410c;
   --ok:#147a4b; --warn:#9a5b06; --err:#b42323; --info:#1d5fb4;
+  --blue:#1d5fb4; --blue-soft:rgba(29,95,180,.09); --green:#147a4b; --green-soft:rgba(20,122,75,.09);
   --shadow:0 1px 2px rgba(20,20,20,.06), 0 6px 18px rgba(20,20,20,.06);
 }
 *{box-sizing:border-box}
@@ -254,9 +256,10 @@ html:not(.js) .reveal{opacity:1;transform:none}
 .hero-report b{font-weight:650}
 .wave-div{height:48px;border-bottom:1px solid var(--line);overflow:hidden}
 .wave-div svg{display:block;width:100%;height:48px}
-.wave-path{fill:none;stroke:var(--accent-text);stroke-width:2;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;opacity:.85;animation:wave-draw 2.2s .6s ease forwards}
-@keyframes wave-draw{to{stroke-dashoffset:0}}
-html:not(.js) .wave-path{stroke-dashoffset:0;animation:none}
+.wave-path{fill:none;stroke:var(--accent-text);stroke-width:2;vector-effect:non-scaling-stroke;opacity:.85}
+.wave-div svg{clip-path:inset(0 100% 0 0);animation:wave-reveal 1.6s .5s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes wave-reveal{to{clip-path:inset(0 0 0 0)}}
+html:not(.js) .wave-div svg{clip-path:none;animation:none}
 .legend{display:flex;gap:10px;flex-wrap:wrap;margin:-12px 0 24px}
 .legend .chip{font-family:var(--font);font-weight:500}
 .req-stack{display:grid;gap:16px}
@@ -322,6 +325,6 @@ html:not(.js) .wave-path{stroke-dashoffset:0;animation:none}
   .summary{grid-template-columns:repeat(2,minmax(0,1fr))}
   .hero{padding:44px 0 36px}
 }
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}.rise,.reveal{opacity:1;transform:none}.wave-path{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}.rise,.reveal{opacity:1;transform:none}.wave-div svg{clip-path:none}}
 .req-list li>.chip{padding:3px 11px;border-bottom:0;align-self:center;font-size:12px}
 .req-list li>.chip+p{align-self:center}

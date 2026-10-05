@@ -119,9 +119,9 @@ Heading **Research and references**.
 - Footer line: *All accuracy figures come from this project's own simulator. Dataset: RadioML 2018.01A (simulated).*
 
 ## 4. Design (use if no official template is attached)
-- 16:9. Dark background `#0c0d0f`, panels `#131519`, text `#eceef2`, muted text `#a3abb7`. **One accent colour: orange `#ff8a3d`**
+- 16:9. Dark background `#0c0d0f`, panels `#131519`, text `#eceef2`, muted text `#a3abb7`. **Orange `#ff8a3d` is the main accent; blue `#5aa9ff` marks the CNN/data and green `#3ecf8e` marks the feature classifier and passing results**
   (use `#c2410c` if you make a light version). Status colours only for the status column: green `#4cc38a`, amber `#f2b84b`, red `#ff6b6b`.
-- Fonts: **Inter** for text, **IBM Plex Mono** for numbers, code and labels. Titles 32 to 40 pt bold, body 16 to 20 pt. Nothing below 14 pt.
+- Fonts: **Inter** for text, **JetBrains Mono** for numbers, code and labels. Titles 32 to 40 pt bold, body 16 to 20 pt. Nothing below 14 pt.
 - One idea per slide, generous spacing, thin 1 px panel borders, no clip art, no stock photos, no gradients on text.
 - Every figure has a caption stating its source. Use the logo (`favicon.svg`) on the title slide only.
 
@@ -141,3 +141,11 @@ Heading **Research and references**.
 3. No paragraphs; no text below 14 pt; nothing overflows its box (render and look at every slide).
 4. No government names or emblems. Mention that the PDF report is a key feature on slides 2 and 5.
 5. Export the PDF as well and check that the page count is 6.
+
+
+## Model facts for the model slide (all from `backend/models/*.json`; label every figure as simulated)
+- CNN: 1-D ResNet, 588,440 parameters, ONNX about 2.2 MB. Dataset RadioML 2018.01A, 24 classes, 26 SNRs (-20 to 30 dB), 800 frames per class and SNR (499,200 total, 80/10/10 split), 1024 I/Q samples, unit RMS. AdamW, one-cycle LR, label smoothing 0.05, dropout 0.3, phase and frequency augmentation, 25 epochs on a Kaggle GPU.
+- CNN accuracy: 96.2% at 10 dB and above, 60.5% over all SNRs. Weak spots: AM-SSB/DSB with and without carrier, 256QAM vs 128QAM.
+- Feature classifier (Random Forest, 6 features): 98.1% on 480 held-out generated signals, 4 classes.
+- Honest caveat to state on the slide: on our own simulator the CNN agrees with the truth 71% of the time (320 captures), so it is a cross-check only. No real capture tested.
+- Landing page sections to screenshot: #problem, #solution, #model (live at `/#/model`).

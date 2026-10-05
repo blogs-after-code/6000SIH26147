@@ -4,12 +4,12 @@ const Plots = (() => {
   const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
   const isLight = () => document.documentElement.getAttribute("data-theme") === "light";
   const col = () => ({ text: css("--text"), muted: css("--muted"), faint: css("--faint"), line: css("--line"), line2: css("--line2"),
-    accent: css("--accent-text") || css("--accent"), bg: css("--bg"), panel: css("--panel"), ok: css("--ok") });
+    accent: css("--accent-text") || css("--accent"), bg: css("--bg"), panel: css("--panel"), ok: css("--ok"), blue: css("--blue"), green: css("--green") });
   function rgba(hex, a) {
     const h = hex.replace("#", ""); const n = parseInt(h.length === 3 ? h.split("").map((c) => c + c).join("") : h, 16);
     return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
   }
-  const FONT = "11.5px 'IBM Plex Mono', ui-monospace, Consolas, monospace";
+  const FONT = "11.5px 'JetBrains Mono', ui-monospace, Consolas, monospace";
 
   function fmtHz(v) {
     if (v === null || v === undefined || isNaN(v)) return "-";
@@ -165,8 +165,8 @@ const Plots = (() => {
   }
 
   // ------------------------------------------------------------------ accuracy by SNR
-  function accuracyCurve(canvas, rows, label) {
-    const { ctx, W, H, C } = prep(canvas); const L = 44, R = 12, T = 12, B = 30;
+  function accuracyCurve(canvas, rows, label, colour) {
+    const { ctx, W, H, C } = prep(canvas); const lc = (colour && C[colour]) || C.accent; const L = 44, R = 12, T = 12, B = 30;
     const xs = rows.map((r) => r.snr), xmin = Math.min(...xs), xmax = Math.max(...xs);
     const X = (v) => L + ((v - xmin) / (xmax - xmin || 1)) * (W - L - R), Y = (v) => T + (1 - v) * (H - T - B);
     ctx.strokeStyle = C.line; ctx.fillStyle = C.muted; ctx.lineWidth = 1;
@@ -174,9 +174,9 @@ const Plots = (() => {
     const step = Math.ceil(rows.length / 8); ctx.textAlign = "center";
     rows.forEach((r, i) => { if (i % step === 0) ctx.fillText(r.snr, X(r.snr), H - 12); });
     ctx.fillText("SNR (dB)", L + (W - L - R) / 2, H - 1);
-    ctx.strokeStyle = C.accent; ctx.lineWidth = 2; ctx.beginPath(); rows.forEach((r, i) => (i ? ctx.lineTo(X(r.snr), Y(r.acc)) : ctx.moveTo(X(r.snr), Y(r.acc)))); ctx.stroke();
-    ctx.fillStyle = C.accent; rows.forEach((r) => { ctx.beginPath(); ctx.arc(X(r.snr), Y(r.acc), 3, 0, 6.3); ctx.fill(); });
-    ctx.fillStyle = C.muted; ctx.textAlign = "left"; ctx.fillText(label || "", L + 8, Y(0.08));
+    ctx.strokeStyle = lc; ctx.lineWidth = 2; ctx.beginPath(); rows.forEach((r, i) => (i ? ctx.lineTo(X(r.snr), Y(r.acc)) : ctx.moveTo(X(r.snr), Y(r.acc)))); ctx.stroke();
+    ctx.fillStyle = lc; rows.forEach((r) => { ctx.beginPath(); ctx.arc(X(r.snr), Y(r.acc), 3, 0, 6.3); ctx.fill(); });
+    ctx.fillStyle = C.muted; ctx.textAlign = "right"; ctx.fillText(label || "", W - R - 8, Y(0.08));
   }
 
   return { fmtHz, fmtDb, empty, psd, rateSpectrum, waterfall, constellation, eye, histogram, frameColumns, accuracyCurve };

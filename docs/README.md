@@ -8,6 +8,7 @@
 | `PHASE2B_KAGGLE.md` | training the CNN on public data (RadioML) on Kaggle and installing it |
 | `PHASE3_EXPLAINED.md` | explaining blind conv / Reed-Solomon identification, de-interleaving, framing |
 | `PHASE4_EXPLAINED.md` | accuracy curves, PDF report, CNN gating, the decoder fix, known weaknesses |
+| `PHASE6_FRONTEND.md` | landing page sections (problem, solution, model), colours, mobile layout and how it was checked |
 | `PHASE5_LDPC.md` | explaining LDPC: how the code and start are found, uploading a matrix, measured limits |
 | `DEFENCE_QA.md` | preparing for judges' questions (one sheet) |
 | `DEMO_SCRIPT.md` | recording the demo video (3 to 4 minutes) |

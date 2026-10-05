@@ -1,0 +1,111 @@
+/* Mobile and tablet layout. Loaded after style.css and sections.css, so it only overrides what must change on small screens.
+   Breakpoints: 1100 (tablet landscape), 860 (tablet portrait, menu appears), 600 (large phone), 400 (small phone). */
+html{-webkit-text-size-adjust:100%}
+body{overflow-x:hidden}
+img,canvas,svg{max-width:100%}
+.topbar-in{padding-left:max(24px,env(safe-area-inset-left));padding-right:max(24px,env(safe-area-inset-right))}
+.nav a{padding:8px 10px}
+
+@media (max-width:1280px){
+  .nav a{font-size:13.5px;padding:8px 8px}
+  .topbar-in{gap:14px}
+  .status-dot span:last-child{display:none}
+}
+@media (max-width:1100px){
+  .sol-grid,.mgrid,.mgrid2{grid-template-columns:minmax(0,1fr)}
+  .cap-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cap:nth-child(n){grid-column:auto}
+  .cap:last-child{grid-column:1 / -1}
+  .cls-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:1060px){
+  .topbar-in{padding:0 16px;gap:10px;height:56px}
+  .menu-btn{display:grid}
+  .icon-btn,.menu-btn{width:40px;height:40px}
+  /* nav becomes a drop-down panel */
+  .nav{display:none;position:absolute;left:0;right:0;top:100%;margin:0;padding:8px 16px 14px;flex-direction:column;gap:2px;background:var(--bg);border-bottom:1px solid var(--line2);box-shadow:0 18px 30px rgba(0,0,0,.35);max-height:calc(100vh - 56px);overflow-y:auto}
+  .nav.open{display:flex}
+  .nav a{padding:13px 12px;font-size:16px;border-radius:8px}
+  .nav a.nav-cta{background:var(--accent);color:var(--accent-ink);text-align:center;margin-top:8px}
+  .status-dot{margin-left:auto}
+  .topbar .grow{display:none}
+}
+@media (max-width:860px){
+  .wrap{padding:0 16px}
+  .section{padding:48px 0}
+  .section .lead{font-size:16px;margin-bottom:26px}
+  .hero{padding:36px 0 30px}
+  .hero .lead{font-size:16.5px}
+  .console canvas{height:260px}
+  .cta-row .btn.large{flex:1 1 220px}
+  .hero-report{display:flex}
+  .flow{grid-template-columns:minmax(0,1fr)} .flow>div{border-left:0}
+  .sol-list li{grid-template-columns:30px minmax(0,1fr)}
+  .sol-list a{grid-column:2}
+  .cls-grid{grid-template-columns:minmax(0,1fr)}
+  .mstats b{font-size:28px}
+  .footer-in{flex-direction:column;gap:6px}
+  /* analyzer */
+  .app{padding:12px;gap:14px}
+  .page-h h1{font-size:22px}
+  .tabs{margin-left:-12px;margin-right:-12px;padding:0 12px;scrollbar-width:thin}
+  .tab{padding:12px 14px}
+  .card-h{padding:14px 14px 0;flex-wrap:wrap} .card-b{padding:14px}
+  .btn,.icon-btn,.tab,.drop{min-height:42px}
+  .btn.small{min-height:36px}
+  .kv td:first-child{width:38%}
+  .report-bar .btn{width:100%}
+  .btn-row .btn{flex:1 1 auto}
+  .message,.bits{font-size:13px}
+  /* wide tables scroll inside their own box instead of widening the page */
+  .table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .table th,.table td{min-width:64px}
+  .card,.card-b,.cols-eq>*,.cols>*,.stack>*{min-width:0}
+}
+@media (max-width:600px){
+  body{font-size:15px}
+  input,select{font-size:16px;padding:11px 12px}   /* 16px stops iOS from zooming into fields */
+  .fields{grid-template-columns:minmax(0,1fr)}
+  .hero h1{font-size:28px}
+  .section h2{font-size:24px}
+  .console canvas{height:220px}
+  .console-bar span{font-size:11px;white-space:normal}
+  .req-side{padding:16px} .req-side h3{font-size:17px}
+  .req-list{padding:4px 14px}
+  .shots{grid-template-columns:minmax(0,1fr)!important}
+  .cap-grid{grid-template-columns:minmax(0,1fr)}
+  .cap:last-child{grid-column:auto}
+  .shots .shot img{height:auto;max-height:220px}
+  .mcard{padding:16px}
+  .mstats{gap:8px} .mstats b{font-size:25px}
+  .cls{grid-template-columns:76px minmax(0,1fr) 44px}
+  .summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .stat{padding:12px} .stat .v{font-size:17px}
+  .steps{grid-template-columns:minmax(0,1fr)}
+  .drop{padding:30px 16px}
+  .report-shot img{width:min(80%,320px)}
+  .legend{margin-top:-6px}
+  .toast{width:calc(100% - 32px);text-align:center}
+  .bridge{flex-direction:column;align-items:flex-start;gap:8px}
+}
+@media (max-width:400px){
+  .brand{font-size:16px}
+  .status-dot{display:none}
+  .summary{grid-template-columns:minmax(0,1fr)}
+  .wordmark{flex-wrap:wrap;gap:4px 10px}
+  .mstats{grid-template-columns:minmax(0,1fr)}
+}
+@media (hover:none){
+  .card.reveal.in:hover,.tile.reveal.in:hover{transform:none}
+}
+
+/* pipeline as a compact horizontal stepper on small screens */
+@media (max-width:860px){
+  .steps{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+  .steps li{flex:0 0 auto;min-width:132px;max-width:200px;scroll-snap-align:start;border:1px solid var(--line);background:var(--panel2)}
+  .steps li::before{display:none}
+  .steps li.active{flex-basis:220px;border-color:var(--blue)}
+  .steps li:not(.active) .sub{display:none}
+  .steps li .tm{display:none}
+}
+@media (max-width:600px){.steps{grid-template-columns:none}}
