@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+env/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# Secrets / local config
+.env
+.env.*
+!.env.example
+
+# Hosting tools
+.vercel/
+.render/
+node_modules/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs, temp
+*.log
+tmp/
+.tmp/
+
+# NOT ignored on purpose (the deployed app needs them):
+#   backend/models/*   trained classifiers
+#   frontend/js/config.js   committed with an empty API base; Vercel regenerates it at build time

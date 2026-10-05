@@ -1,0 +1,15 @@
+{
+  "agreement": 0.7125,
+  "n_captures": 320,
+  "modulations": [
+    "BPSK",
+    "QPSK",
+    "8PSK",
+    "16QAM"
+  ],
+  "min_fullband_snr_db": 8,
+  "source": "scripts/evaluate_pipeline.py on backend/core/generator.py signals",
+  "model_sha256": "b2c2ece6dfd6e3124408d9f2c55ae2de632303b8ed344d8765184ae71240c7e2",
+  "labels_verified": true,
+  "created": "2026-10-04T09:17:59"
+}

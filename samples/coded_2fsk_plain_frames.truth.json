@@ -1,0 +1,23 @@
+{
+  "mod": "2FSK",
+  "fs": 100000.0,
+  "symbol_rate": 12500.0,
+  "sps": 8,
+  "beta": 0.35,
+  "snr_db_fullband": 12,
+  "cfo_hz": 2000.0,
+  "n_symbols": 10240,
+  "gray": false,
+  "chain": {
+    "fec": "none",
+    "conv": "none",
+    "interleaver": "none",
+    "ia": 8,
+    "ib": 8,
+    "n_frames": 40,
+    "payload_len": 24,
+    "frame_bytes": 32,
+    "n_bits": 10240
+  },
+  "message_text": "YANKEE nominal ALPHA packet QUEBEC SIERRA WHISKEY KILO 0123456789 BRAVO KILO NOVEMBER UNIFORM OSCAR ECHO BRAVO ALPHA BRAVO FOXTROT 0123456789 GOLF XRAY status INDIA KILO PAPA JULIET 0123456789 GOLF carrier nominal uplink ECHO OSCAR WHISKEY ROMEO XRAY YANKEE XRAY CHARLIE sensor UNIFORM carrier JULIET NOVEMBER downlink GOLF CHARLIE NOVEMBER YANKEE ECHO downlink MIKE INDIA TANGO carrier downlink downlink LIMA ALPHA nominal ZULU status ALPHA BRAVO SIERRA MIKE PAPA beacon HOTEL TANGO LIMA KILO packet FOXTROT LIMA ECHO FOXTROT KILO ZULU UNIFORM QUEBEC GOLF nominal nominal INDIA CHARLIE LIMA FOXTROT nominal SIERRA SIERRA KILO SIERRA sensor INDIA status ALPHA LIMA beacon downlink DELTA uplink uplink QUEBEC NOVEMBER 0123456789 sensor YANKEE OSCAR HOTEL beacon JULIET UNIFORM YANKEE INDIA LIMA telemetry HOTEL YANKEE sensor YANKEE XRAY QUEBEC sensor HOTEL MIKE XRAY XRAY DELTA FOXTROT YANKEE uplink WHISKEY beacon NOVEMBER LIMA nominal BRAVO GOLF GOLF OSCAR FO"
+}

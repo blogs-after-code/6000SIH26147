@@ -1,0 +1,96 @@
+{
+  "labels": [
+    "BPSK",
+    "QPSK",
+    "8PSK",
+    "16QAM"
+  ],
+  "features": [
+    "pmr2_dB",
+    "pmr4_dB",
+    "pmr8_dB",
+    "m4",
+    "m6",
+    "cv"
+  ],
+  "n_train": 2000,
+  "n_test": 480,
+  "accuracy": 0.9812,
+  "accuracy_by_esn0_db": [
+    {
+      "esn0_range": [
+        6,
+        10
+      ],
+      "n": 107,
+      "accuracy": 0.9346
+    },
+    {
+      "esn0_range": [
+        10,
+        14
+      ],
+      "n": 106,
+      "accuracy": 0.9906
+    },
+    {
+      "esn0_range": [
+        14,
+        18
+      ],
+      "n": 90,
+      "accuracy": 1.0
+    },
+    {
+      "esn0_range": [
+        18,
+        22
+      ],
+      "n": 78,
+      "accuracy": 1.0
+    },
+    {
+      "esn0_range": [
+        22,
+        26
+      ],
+      "n": 99,
+      "accuracy": 0.9899
+    }
+  ],
+  "confusion_matrix": [
+    [
+      120,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      117,
+      1,
+      2
+    ],
+    [
+      0,
+      2,
+      116,
+      2
+    ],
+    [
+      0,
+      1,
+      1,
+      118
+    ]
+  ],
+  "feature_importance": {
+    "pmr2_dB": 0.322,
+    "pmr4_dB": 0.324,
+    "pmr8_dB": 0.019,
+    "m4": 0.113,
+    "m6": 0.076,
+    "cv": 0.147
+  },
+  "note": "Hold-out set = synthetic signals with unseen seeds/parameters. Real-world accuracy will be lower."
+}

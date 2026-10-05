@@ -1,0 +1,31 @@
+{
+  "mod": "BPSK",
+  "fs": 100000.0,
+  "symbol_rate": 12500.0,
+  "sps": 8,
+  "beta": 0.35,
+  "snr_db_fullband": 6,
+  "cfo_hz": 1000.0,
+  "n_symbols": 30720,
+  "gray": false,
+  "chain": {
+    "fec": "none",
+    "conv": "conv_k7",
+    "interleaver": "none",
+    "ia": 8,
+    "ib": 8,
+    "n_frames": 60,
+    "payload_len": 24,
+    "frame_bytes": 32,
+    "conv_params": {
+      "octal": [
+        "171",
+        "133"
+      ],
+      "K": 7,
+      "rate": "1/2"
+    },
+    "n_bits": 30720
+  },
+  "message_text": "YANKEE nominal ALPHA packet QUEBEC SIERRA WHISKEY KILO 0123456789 BRAVO KILO NOVEMBER UNIFORM OSCAR ECHO BRAVO ALPHA BRAVO FOXTROT 0123456789 GOLF XRAY status INDIA KILO PAPA JULIET 0123456789 GOLF carrier nominal uplink ECHO OSCAR WHISKEY ROMEO XRAY YANKEE XRAY CHARLIE sensor UNIFORM carrier JULIET NOVEMBER downlink GOLF CHARLIE NOVEMBER YANKEE ECHO downlink MIKE INDIA TANGO carrier downlink downlink LIMA ALPHA nominal ZULU status ALPHA BRAVO SIERRA MIKE PAPA beacon HOTEL TANGO LIMA KILO packet FOXTROT LIMA ECHO FOXTROT KILO ZULU UNIFORM QUEBEC GOLF nominal nominal INDIA CHARLIE LIMA FOXTROT nominal SIERRA SIERRA KILO SIERRA sensor INDIA status ALPHA LIMA beacon downlink DELTA uplink uplink QUEBEC NOVEMBER 0123456789 sensor YANKEE OSCAR HOTEL beacon JULIET UNIFORM YANKEE INDIA LIMA telemetry HOTEL YANKEE sensor YANKEE XRAY QUEBEC sensor HOTEL MIKE XRAY XRAY DELTA FOXTROT YANKEE uplink WHISKEY beacon NOVEMBER LIMA nominal BRAVO GOLF GOLF OSCAR FOXTROT nominal uplink NOVEMBER BRAVO ZULU DELTA WHISKEY GOLF beacon YANKEE 0123456789 WHISKEY telemetry NOVEMBER packet ECHO FOXTROT MIKE ZULU ROMEO uplink beacon OSCAR PAPA TANGO XRAY ROMEO VICTOR sensor telemetry LIMA PAPA OSCAR FOXTROT ALPHA nominal PAPA MIKE WHISKEY UNIFORM beacon WHISKEY beacon UNIFORM LIMA LIMA 0123456789 VICTOR GOLF packet packet ALPHA FOXTROT YANKEE OSCAR MIKE CHARLIE GOLF uplink packet packet UNIFORM FOXTROT LIMA SIERRA 0123456789 JULIET TANGO ROMEO S"
+}

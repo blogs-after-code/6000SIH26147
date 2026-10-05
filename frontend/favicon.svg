@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>SanketSetu</title>
+  <rect width="64" height="64" rx="14" fill="#e8741a"/>
+  <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <!-- setu: towers and suspension cables -->
+    <path d="M21 13v31M43 13v31" stroke-width="4.5"/>
+    <path d="M7 41 21 13Q32 38 43 13L57 41" stroke-width="3.2"/>
+    <!-- sanket: the deck is the signal -->
+    <path d="M6 48q3.2-7 6.4 0t6.4 0 6.4 0 6.4 0 6.4 0 6.4 0 6.4 0 6.4 0" stroke-width="3.6"/>
+  </g>
+</svg>

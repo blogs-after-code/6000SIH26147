@@ -1,0 +1,11 @@
+{
+  "mod": "16QAM",
+  "fs": 100000.0,
+  "symbol_rate": 12500.0,
+  "sps": 8,
+  "beta": 0.35,
+  "snr_db_fullband": 20,
+  "cfo_hz": 0,
+  "n_symbols": 4000,
+  "gray": false
+}

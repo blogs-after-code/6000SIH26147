@@ -1,0 +1,11 @@
+{
+  "mod": "QPSK",
+  "fs": 100000.0,
+  "symbol_rate": 12500.0,
+  "sps": 8,
+  "beta": 0.35,
+  "snr_db_fullband": 12,
+  "cfo_hz": 5000.0,
+  "n_symbols": 4000,
+  "gray": false
+}

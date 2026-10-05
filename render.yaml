@@ -1,0 +1,18 @@
+# Render Blueprint: New + > Blueprint, pick this repo. Backend + API (it also serves the front end at its own URL).
+services:
+  - type: web
+    name: sanketsetu-api
+    runtime: python
+    plan: free                  # change to "starter" before the judging day if decoding is too slow (see DEPLOY.md)
+    region: singapore           # closest Render region to India
+    branch: main
+    autoDeploy: true            # every push to main redeploys
+    buildCommand: pip install --upgrade pip && pip install -r requirements-prod.txt
+    # ONE worker only: sessions live in process memory (backend/main.py), more workers would lose them.
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT --workers 1
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: CORS_ORIGINS       # optional: extra allowed front-end origins (custom domain). *.vercel.app is already allowed.
+        value: ""

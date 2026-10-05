@@ -1,0 +1,76 @@
+<!doctype html><html><head><meta charset="utf-8"><title>SanketSetu SIH 2026</title>
+<style>
+@page{size:1280px 720px;margin:0}
+*{box-sizing:border-box}
+body{margin:0;font-family:"DejaVu Sans",Arial,sans-serif;color:#1d1d1f}
+.s{width:1280px;height:720px;padding:46px 64px;page-break-after:always;position:relative;background:#fff;overflow:hidden}
+.s:last-child{page-break-after:auto}
+h1{font-size:40px;margin:0 0 6px}h2{font-size:30px;margin:0 0 18px;border-left:8px solid #e8741a;padding-left:14px}
+.sub{color:#555;font-size:17px}
+ul{margin:0;padding-left:22px;font-size:19px;line-height:1.45}li{margin-bottom:7px}
+.cols{display:flex;gap:34px}.cols>div{flex:1}
+.box{background:#f5f2ee;border-radius:6px;padding:14px 18px}
+.warn{background:#fff3e6;border-left:6px solid #e8741a}
+.flow{display:flex;gap:8px;align-items:stretch;margin:6px 0 16px}
+.flow div{flex:1;background:#1d1d1f;color:#fff;font-size:14px;padding:10px 6px;text-align:center;border-radius:4px}
+.flow span{align-self:center;color:#e8741a;font-weight:bold}
+img{max-width:100%}.cap{font-size:12px;color:#666}
+table{border-collapse:collapse;font-size:15px}td,th{border:1px solid #ccc;padding:5px 9px;text-align:left}
+.tag{position:absolute;right:64px;bottom:22px;font-size:12px;color:#888}
+</style></head><body>
+
+<div class="s">
+<div class="sub" style="margin-top:40px">SMART INDIA HACKATHON 2026 &nbsp;|&nbsp; IDEA PRESENTATION</div>
+<h1 style="font-size:58px;margin-top:20px">SanketSetu</h1>
+<div style="font-size:26px;margin-bottom:40px">Blind analysis of raw radio captures: from IQ samples to the recovered message</div>
+<table><tr><td>Problem Statement ID</td><td>[fill in]</td></tr><tr><td>Problem Statement Title</td><td>[fill in from the SIH portal]</td></tr>
+<tr><td>Theme / Category</td><td>[fill in]</td></tr><tr><td>Team ID and Team Name</td><td>[fill in]</td></tr></table>
+</div>
+
+<div class="s"><h2>Idea</h2>
+<div class="cols"><div>
+<ul><li><b>Proposed solution:</b> web tool that takes a .wav or raw IQ capture with no prior knowledge and reports sampling-derived parameters, modulation, FEC, interleaving and frame structure</li>
+<li><b>How it addresses the problem:</b> replaces manual analysis with an automated chain and shows its evidence (spectrum, constellation, confidence) at every step</li>
+<li><b>Demodulates</b> BPSK, QPSK, 8PSK, 16QAM, 2FSK, 4FSK</li>
+<li><b>Decodes</b> convolutional codes (Viterbi), Reed-Solomon and concatenated codes; de-interleaves block, diagonal, convolutional, pseudo-random</li></ul></div>
+<div><div class="box"><b>Innovation and uniqueness</b><ul style="font-size:17px">
+<li>Blind identification of the convolutional code and the RS code from the bits alone</li>
+<li>Feed-forward estimators: no loops to tune, explainable from first principles</li>
+<li>Bit-stream correlation finds sync word, header and payload</li>
+<li>Second opinion from a CNN trained on public RadioML data</li>
+<li>PDF evidence report per analysis</li></ul></div></div></div></div>
+
+<div class="s"><h2>Technical approach</h2>
+<div class="flow"><div>.wav / IQ<br>ingest</div><span>&rsaquo;</span><div>PSD, waterfall<br>centre, BW, SNR</div><span>&rsaquo;</span><div>symbol rate<br>timing, carrier</div><span>&rsaquo;</span><div>modulation<br>RF + CNN</div><span>&rsaquo;</span><div>demap<br>bits</div><span>&rsaquo;</span><div>de-interleave<br>conv + RS decode</div><span>&rsaquo;</span><div>frames, header,<br>message</div></div>
+<ul style="font-size:17px;margin-bottom:8px"><li><b>Technologies:</b> Python, NumPy/SciPy, scikit-learn, ONNX Runtime, FastAPI, plain HTML/CSS/JS &nbsp;|&nbsp; <b>Prototype:</b> working web app, 66 automated tests, PDF report export</li>
+<li><b>Methods:</b> |x|&sup2; spectral line for symbol rate; Oerder-Meyr timing; M-th power carrier recovery; GF(2) correlation for code identification; Berlekamp-Massey RS decoding</li></ul>
+<div style="text-align:center"><img src="../results/demod_vs_snr.png" style="width:900px"><div class="cap">Own simulator, 20 captures per point. Not real captures.</div></div></div>
+
+<div class="s"><h2>Feasibility and viability</h2>
+<div class="cols"><div><ul style="font-size:17px"><li><b>Feasible:</b> runs on a laptop CPU; CNN is a 2.3 MB ONNX file</li>
+<li><b>Measured (simulator):</b> BER 0 at 8 dB full-band SNR for PSK/2FSK; conv K=7 decodes to ~2 % raw BER, RS(255,223) to ~0.3 %, RS+conv to ~3 %, LDPC(512,256) to ~4 %, RS+LDPC to ~4 %</li>
+<li><b>Challenges and risks</b> (stated plainly):</li></ul>
+<div class="box warn"><ul style="font-size:16px"><li>No real capture tested yet; transmitter and receiver share an author</li>
+<li>BPSK sometimes mistaken for FSK (15-30 % in simulation)</li>
+<li>CNN agrees with truth on 71 % of simulated captures; informational only</li>
+<li>LDPC needs the parity-check matrix for non-built-in codes; no scramblers, puncturing, soft decisions; interleaver size supplied by operator</li></ul></div></div>
+<div><img src="../results/decode_vs_ber.png" style="width:520px"><div class="cap">Blind decode success vs raw channel BER, own simulator and transmit chain.</div>
+<ul style="font-size:16px;margin-top:10px"><li><b>Strategy:</b> validate on public / RTL-SDR captures, ship the standard CCSDS and Wi-Fi LDPC matrices, soft-decision decoding</li></ul></div></div></div>
+
+<div class="s"><h2>Impact and benefits</h2>
+<ul><li><b>Analysts:</b> minutes instead of hours for first-pass parameter identification; every conclusion shows its evidence</li>
+<li><b>Trust:</b> confidence, warnings and limits are shown; nothing is presented as certain when it is an estimate</li>
+<li><b>Training and research:</b> each algorithm is explainable; documented with known-answer tests</li>
+<li><b>Reuse:</b> works on files from different sensors (.wav or raw IQ cf32/ci16/ci8/cu8)</li>
+<li><b>Low cost:</b> open-source stack, no GPU or licence needed at run time</li>
+<li><b>Roadmap:</b> standard LDPC matrices, scrambler support, SigMF metadata, batch mode, GNU Radio flowgraph export</li></ul></div>
+
+<div class="s"><h2>Research and references</h2>
+<ul style="font-size:17px"><li>O'Shea, Roy, Clancy. "Over-the-Air Deep Learning Based Radio Signal Classification". IEEE J. Sel. Topics Signal Process., 2018 (RadioML 2018.01A dataset)</li>
+<li>Oerder, Meyr. "Digital Filter and Square Timing Recovery". IEEE Trans. Commun., 1988</li>
+<li>Viterbi. "Error Bounds for Convolutional Codes and an Asymptotically Optimum Decoding Algorithm". IEEE Trans. Inf. Theory, 1967</li>
+<li>Reed, Solomon. "Polynomial Codes over Certain Finite Fields". J. SIAM, 1960</li>
+<li>CCSDS 131.0-B: TM Synchronization and Channel Coding (attached sync marker, RS(255,223), K=7 code)</li>
+<li>Tools: FastAPI, ONNX Runtime, scikit-learn, NumPy/SciPy</li></ul>
+<p class="cap" style="margin-top:24px">All accuracy figures: this project's own simulator. Dataset: RadioML 2018.01A (simulated).</p></div>
+</body></html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SignalLab workspace</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/workspace.css">
+</head>
+<body>
+  <nav class="nav">
+    <a class="brand" href="index.html">
+      <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#06101f" stroke-width="2.6" stroke-linecap="round"><path d="M2 12h3l2-7 4 14 3-10 2 3h6"/></svg></span>
+      SignalLab
+    </a>
+    <div class="nav-links"><a href="index.html">Home</a><a class="btn btn-ghost btn-small" href="analyze.html" id="newBtn">New analysis</a></div>
+  </nav>
+
+  <div class="ws">
+    <aside class="card steps">
+      <h3>Pipeline</h3>
+      <ol id="stepList"></ol>
+    </aside>
+
+    <main>
+      <div>
+        <h1 class="page-title">Signal workspace</h1>
+        <p class="page-sub">Drop a capture, and the pipeline runs end to end. Every estimate can be overridden and re-run.</p>
+      </div>
+
+      <!-- 1. upload -->
+      <section id="uploadSection" class="upload-grid">
+        <div class="card">
+          <div class="dropzone" id="dropzone" tabindex="0">
+            <div class="big">&#128228;</div>
+            <h2>Drag &amp; drop a signal file here</h2>
+            <p>or click to browse &middot; .wav, .iq, .cf32, .cs16, .cs8, .cu8</p>
+            <input type="file" id="fileInput" hidden>
+          </div>
+          <div class="file-info" id="fileInfo">
+            <div class="file-pill"><b id="fileName"></b><span id="fileSize"></span></div>
+            <div class="raw-fields" id="rawFields">
+              <label><span>Sample format</span>
+                <select id="fmt">
+                  <option value="cf32">cf32 &ndash; float32 I/Q</option>
+                  <option value="ci16">ci16 &ndash; int16 I/Q</option>
+                  <option value="ci8">ci8 &ndash; int8 I/Q</option>
+                  <option value="cu8">cu8 &ndash; uint8 I/Q (RTL-SDR)</option>
+                </select>
+              </label>
+              <label><span>Sampling rate (Hz)</span><input type="number" id="fs" placeholder="e.g. 100000"></label>
+              <p class="hint" style="grid-column: 1 / -1;">Raw IQ files carry no header, so the sampling rate cannot be read from the file.</p>
+            </div>
+            <button class="btn btn-primary" id="startBtn" style="width:100%">Start analysis</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>No file handy? Generate a test signal</h3>
+          <p class="sub">The server builds a capture with known parameters, so you can check the result against the truth.</p>
+          <label><span>Modulation</span>
+            <select id="dMod"><option>BPSK</option><option selected>QPSK</option><option>8PSK</option><option>16QAM</option><option>2FSK</option><option>4FSK</option></select>
+          </label>
+          <div class="row3">
+            <label><span>SNR (dB, full band)</span><input type="number" id="dSnr" value="12"></label>
+            <label><span>Carrier offset (Hz)</span><input type="number" id="dCfo" value="5000"></label>
+            <label><span>Roll-off</span><input type="number" id="dBeta" value="0.35" step="0.05" min="0.1" max="0.9"></label>
+          </div>
+          <button class="btn btn-ghost" id="demoBtn" style="width:100%">Generate &amp; analyze</button>
+        </div>
+      </section>
+
+      <div class="status" id="status"></div>
+
+      <!-- 2. results -->
+      <div id="results">
+        <div class="warns" id="warns"></div>
+        <div class="summary" id="summary"></div>
+
+        <div class="grid2">
+          <div class="card"><h3>Power spectrum</h3><p class="sub">Where the signal sits and how it rises above the noise floor.</p>
+            <canvas class="plot" id="cPsd" data-h="260"></canvas>
+            <p class="cap">Shaded band = 99% occupied bandwidth. Dashed line = estimated noise floor.</p></div>
+          <div class="card"><h3>Waterfall</h3><p class="sub">Spectrum over time: bursts, hopping and drift show up here.</p>
+            <canvas class="plot" id="cWf" data-h="260"></canvas>
+            <p class="cap">Horizontal axis = frequency, vertical axis = time (top is the start).</p></div>
+        </div>
+
+        <div class="grid3">
+          <div class="card"><h3>Modulation</h3><p class="sub">Identified automatically.</p>
+            <div class="modbox"><span class="name" id="modName">&ndash;</span><span class="src" id="modSrc"></span></div>
+            <div id="probs"></div>
+            <div class="kv" id="modKv"></div>
+          </div>
+          <div class="card"><h3>Symbol-rate estimate</h3><p class="sub">Spectral line that reveals the symbol rate.</p>
+            <canvas class="plot" id="cRate" data-h="200"></canvas>
+            <div class="kv" id="rateKv"></div>
+          </div>
+          <div class="card"><h3>Quality</h3><p class="sub">How clean the recovered symbols are.</p>
+            <div class="summary" id="quality" style="grid-template-columns: 1fr 1fr;"></div>
+            <div id="truthBox"></div>
+          </div>
+        </div>
+
+        <div class="grid2">
+          <div class="card" id="cardConst"><h3>Constellation</h3><p class="sub">Recovered symbols after timing and carrier recovery.</p>
+            <canvas class="plot" id="cConst" data-h="320"></canvas>
+            <p class="cap">Tight clusters on the ideal points mean a clean demodulation. The pattern is correct up to a fixed rotation.</p></div>
+          <div class="card" id="cardEye"><h3>Eye diagram</h3><p class="sub">In-phase component folded over two symbol periods.</p>
+            <canvas class="plot" id="cEye" data-h="320"></canvas>
+            <p class="cap">A wide open eye at the centre means sampling at the right instant is easy.</p></div>
+          <div class="card" id="cardHist" style="display:none"><h3>Tone histogram</h3><p class="sub">Measured frequency per symbol, relative to the centre.</p>
+            <canvas class="plot" id="cHist" data-h="320"></canvas>
+            <p class="cap">Each peak is one FSK tone. The number of well-separated peaks gives the order of the modulation.</p></div>
+        </div>
+
+        <div class="card"><h3>Recovered bitstream</h3>
+          <p class="sub" id="bitsSub"></p>
+          <div class="bits" id="bitsBox"></div>
+          <p class="cap" id="bitsNote"></p>
+          <div class="btn-row"><a class="btn btn-primary btn-small" id="dlTxt" href="#">Download .txt</a><a class="btn btn-ghost btn-small" id="dlBin" href="#">Download .bin</a></div>
+        </div>
+
+        <div class="card"><h3>Adjust &amp; re-run</h3><p class="sub">Override any estimate if you know better, then run the demodulator again.</p>
+          <div class="controls">
+            <label><span>Modulation</span>
+              <select id="oMod"><option value="">Auto-detect</option><option>BPSK</option><option>QPSK</option><option>8PSK</option><option>16QAM</option><option>2FSK</option><option>4FSK</option></select></label>
+            <label><span>Symbol rate (Hz)</span><input type="number" id="oRate" placeholder="auto"></label>
+            <label><span>Roll-off (matched filter)</span><input type="number" id="oBeta" value="0.35" step="0.05" min="0.1" max="0.9"></label>
+            <button class="btn btn-primary" id="rerunBtn">Re-run demodulation</button>
+          </div>
+        </div>
+
+        <div class="grid3">
+          <div class="card locked-card"><h3>De-interleaving <span class="badge soon">Phase 3</span></h3><p class="sub">Block, convolutional, diagonal and pseudo-random de-interleaving.</p></div>
+          <div class="card locked-card"><h3>FEC decoding <span class="badge soon">Phase 3</span></h3><p class="sub">Viterbi, Reed-Solomon, concatenated and LDPC decoding.</p></div>
+          <div class="card locked-card"><h3>Bitstream correlation <span class="badge soon">Phase 3</span></h3><p class="sub">Header and payload identification from repeating patterns.</p></div>
+        </div>
+
+        <div class="card"><h3>How reliable is the modulation classifier?</h3>
+          <p class="sub">Measured on held-out synthetic signals the model never saw during training.</p>
+          <div class="model-bars" id="modelBars"><p class="cap">Loading...</p></div>
+          <p class="cap" id="modelNote"></p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/plots.js"></script>
+  <script src="js/workspace.js"></script>
+</body>
+</html>

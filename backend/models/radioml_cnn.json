@@ -1,0 +1,277 @@
+{
+  "labels": [
+    "OOK",
+    "4ASK",
+    "8ASK",
+    "BPSK",
+    "QPSK",
+    "8PSK",
+    "16PSK",
+    "32PSK",
+    "16APSK",
+    "32APSK",
+    "64APSK",
+    "128APSK",
+    "16QAM",
+    "32QAM",
+    "64QAM",
+    "128QAM",
+    "256QAM",
+    "AM-SSB-WC",
+    "AM-SSB-SC",
+    "AM-DSB-WC",
+    "AM-DSB-SC",
+    "FM",
+    "GMSK",
+    "OQPSK"
+  ],
+  "input_len": 1024,
+  "sps": 8,
+  "input_layout": "(batch, 2, L): I then Q, unit RMS per frame",
+  "dataset": "RadioML 2018.01A",
+  "source": "Kaggle",
+  "arch": "1-D ResNet, width 64, 588440 parameters",
+  "epochs": 25,
+  "best_epoch": 25,
+  "best_val_acc": 0.6022,
+  "test_accuracy": 0.6049,
+  "test_accuracy_ge10dB": 0.9615,
+  "accuracy_by_snr": [
+    {
+      "snr": -20,
+      "acc": 0.0417,
+      "n": 1920
+    },
+    {
+      "snr": -18,
+      "acc": 0.038,
+      "n": 1920
+    },
+    {
+      "snr": -16,
+      "acc": 0.0437,
+      "n": 1920
+    },
+    {
+      "snr": -14,
+      "acc": 0.0443,
+      "n": 1920
+    },
+    {
+      "snr": -12,
+      "acc": 0.0661,
+      "n": 1920
+    },
+    {
+      "snr": -10,
+      "acc": 0.101,
+      "n": 1920
+    },
+    {
+      "snr": -8,
+      "acc": 0.163,
+      "n": 1920
+    },
+    {
+      "snr": -6,
+      "acc": 0.2182,
+      "n": 1920
+    },
+    {
+      "snr": -4,
+      "acc": 0.3208,
+      "n": 1920
+    },
+    {
+      "snr": -2,
+      "acc": 0.4266,
+      "n": 1920
+    },
+    {
+      "snr": 0,
+      "acc": 0.5354,
+      "n": 1920
+    },
+    {
+      "snr": 2,
+      "acc": 0.6391,
+      "n": 1920
+    },
+    {
+      "snr": 4,
+      "acc": 0.7589,
+      "n": 1920
+    },
+    {
+      "snr": 6,
+      "acc": 0.8417,
+      "n": 1920
+    },
+    {
+      "snr": 8,
+      "acc": 0.912,
+      "n": 1920
+    },
+    {
+      "snr": 10,
+      "acc": 0.9479,
+      "n": 1920
+    },
+    {
+      "snr": 12,
+      "acc": 0.9578,
+      "n": 1920
+    },
+    {
+      "snr": 14,
+      "acc": 0.9646,
+      "n": 1920
+    },
+    {
+      "snr": 16,
+      "acc": 0.9651,
+      "n": 1920
+    },
+    {
+      "snr": 18,
+      "acc": 0.9594,
+      "n": 1920
+    },
+    {
+      "snr": 20,
+      "acc": 0.9641,
+      "n": 1920
+    },
+    {
+      "snr": 22,
+      "acc": 0.962,
+      "n": 1920
+    },
+    {
+      "snr": 24,
+      "acc": 0.9651,
+      "n": 1920
+    },
+    {
+      "snr": 26,
+      "acc": 0.9656,
+      "n": 1920
+    },
+    {
+      "snr": 28,
+      "acc": 0.9641,
+      "n": 1920
+    },
+    {
+      "snr": 30,
+      "acc": 0.9604,
+      "n": 1920
+    }
+  ],
+  "class_accuracy_ge10dB": {
+    "OOK": 1.0,
+    "4ASK": 1.0,
+    "8ASK": 1.0,
+    "BPSK": 1.0,
+    "QPSK": 1.0,
+    "8PSK": 1.0,
+    "16PSK": 0.9989,
+    "32PSK": 0.9977,
+    "16APSK": 1.0,
+    "32APSK": 1.0,
+    "64APSK": 0.9966,
+    "128APSK": 0.9955,
+    "16QAM": 1.0,
+    "32QAM": 0.9955,
+    "64QAM": 0.95,
+    "128QAM": 0.933,
+    "256QAM": 0.8898,
+    "AM-SSB-WC": 0.9284,
+    "AM-SSB-SC": 0.7261,
+    "AM-DSB-WC": 0.9398,
+    "AM-DSB-SC": 0.7239,
+    "FM": 1.0,
+    "GMSK": 1.0,
+    "OQPSK": 1.0
+  },
+  "top_confusions_ge10dB": [
+    [
+      243,
+      "AM-DSB-SC",
+      "AM-DSB-WC"
+    ],
+    [
+      241,
+      "AM-SSB-SC",
+      "AM-SSB-WC"
+    ],
+    [
+      63,
+      "AM-SSB-WC",
+      "AM-SSB-SC"
+    ],
+    [
+      53,
+      "AM-DSB-WC",
+      "AM-DSB-SC"
+    ],
+    [
+      52,
+      "256QAM",
+      "64QAM"
+    ],
+    [
+      49,
+      "128QAM",
+      "256QAM"
+    ],
+    [
+      44,
+      "256QAM",
+      "128QAM"
+    ],
+    [
+      34,
+      "64QAM",
+      "256QAM"
+    ]
+  ],
+  "app_map": {
+    "OOK": null,
+    "4ASK": null,
+    "8ASK": null,
+    "BPSK": "BPSK",
+    "QPSK": "QPSK",
+    "8PSK": "8PSK",
+    "16PSK": null,
+    "32PSK": null,
+    "16APSK": null,
+    "32APSK": null,
+    "64APSK": null,
+    "128APSK": null,
+    "16QAM": "16QAM",
+    "32QAM": null,
+    "64QAM": null,
+    "128QAM": null,
+    "256QAM": null,
+    "AM-SSB-WC": null,
+    "AM-SSB-SC": null,
+    "AM-DSB-WC": null,
+    "AM-DSB-SC": null,
+    "FM": null,
+    "GMSK": null,
+    "OQPSK": null
+  },
+  "n_train": 399360,
+  "n_test": 49920,
+  "seed": 0,
+  "onnx_matches_torch": true,
+  "created": "2026-10-03T11:00:33.647676Z",
+  "sha256": "b2c2ece6dfd6e3124408d9f2c55ae2de632303b8ed344d8765184ae71240c7e2",
+  "note": "Accuracy is on simulated RadioML frames never seen in training. Real captures will score lower.",
+  "label_order": "fixed",
+  "labels_verified": true,
+  "label_note": "Labels were re-attached by output index after training (weights unchanged). Order confirmed against the dataset with kaggle/verify_class_order.py.",
+  "input_noise_snr_db": 5,
+  "input_noise_note": "Seeded white noise at 5 dB is added to each channelised frame before scoring. Chosen from a sweep (none/20/12/8/5 dB) on this project's own simulator, where clean frames were out of distribution and scored 0/36; so the resulting agreement figure is optimistic. See docs/PHASE2B_KAGGLE.md."
+}

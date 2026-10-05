@@ -1,0 +1,255 @@
+{
+ "note": "Measured on this project's own simulator; an upper bound for real captures.",
+ "date": "2026-10-04",
+ "quick": true,
+ "demod": [
+  {
+   "mod": "BPSK",
+   "snr_fullband_db": 0,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "BPSK",
+   "snr_fullband_db": 6,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "BPSK",
+   "snr_fullband_db": 12,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "BPSK",
+   "snr_fullband_db": 20,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "QPSK",
+   "snr_fullband_db": 0,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0032532532532532532,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "QPSK",
+   "snr_fullband_db": 6,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "QPSK",
+   "snr_fullband_db": 12,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "QPSK",
+   "snr_fullband_db": 20,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "8PSK",
+   "snr_fullband_db": 0,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.07884856070087609,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "8PSK",
+   "snr_fullband_db": 6,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0013350020859407593,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "8PSK",
+   "snr_fullband_db": 12,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "8PSK",
+   "snr_fullband_db": 20,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "16QAM",
+   "snr_fullband_db": 0,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.10942192192192192,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "16QAM",
+   "snr_fullband_db": 6,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.005632040050062578,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "16QAM",
+   "snr_fullband_db": 12,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "16QAM",
+   "snr_fullband_db": 20,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": 0.0
+  },
+  {
+   "mod": "2FSK",
+   "snr_fullband_db": 0,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.011508631473605204,
+   "cnn_agreement": null
+  },
+  {
+   "mod": "2FSK",
+   "snr_fullband_db": 6,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": null
+  },
+  {
+   "mod": "2FSK",
+   "snr_fullband_db": 12,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": null
+  },
+  {
+   "mod": "2FSK",
+   "snr_fullband_db": 20,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": null
+  },
+  {
+   "mod": "4FSK",
+   "snr_fullband_db": 0,
+   "n": 3,
+   "id_accuracy": 0.6666666666666666,
+   "ber_median": 0.08404202101050526,
+   "cnn_agreement": null
+  },
+  {
+   "mod": "4FSK",
+   "snr_fullband_db": 6,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.002126063031515758,
+   "cnn_agreement": null
+  },
+  {
+   "mod": "4FSK",
+   "snr_fullband_db": 12,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": null
+  },
+  {
+   "mod": "4FSK",
+   "snr_fullband_db": 20,
+   "n": 3,
+   "id_accuracy": 1.0,
+   "ber_median": 0.0,
+   "cnn_agreement": null
+  }
+ ],
+ "decode": [
+  {
+   "chain": "Convolutional K=7 (171/133)",
+   "channel_ber": 0.0,
+   "n": 3,
+   "success": 1.0
+  },
+  {
+   "chain": "Convolutional K=7 (171/133)",
+   "channel_ber": 0.02,
+   "n": 3,
+   "success": 1.0
+  },
+  {
+   "chain": "Convolutional K=7 (171/133)",
+   "channel_ber": 0.06,
+   "n": 3,
+   "success": 0.0
+  },
+  {
+   "chain": "Reed-Solomon (255,223)",
+   "channel_ber": 0.0,
+   "n": 3,
+   "success": 1.0
+  },
+  {
+   "chain": "Reed-Solomon (255,223)",
+   "channel_ber": 0.02,
+   "n": 3,
+   "success": 0.0
+  },
+  {
+   "chain": "Reed-Solomon (255,223)",
+   "channel_ber": 0.06,
+   "n": 3,
+   "success": 0.0
+  },
+  {
+   "chain": "RS (204,188) + conv K=9",
+   "channel_ber": 0.0,
+   "n": 3,
+   "success": 1.0
+  },
+  {
+   "chain": "RS (204,188) + conv K=9",
+   "channel_ber": 0.02,
+   "n": 3,
+   "success": 1.0
+  },
+  {
+   "chain": "RS (204,188) + conv K=9",
+   "channel_ber": 0.06,
+   "n": 3,
+   "success": 0.0
+  }
+ ]
+}

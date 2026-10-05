@@ -1,0 +1,8 @@
+* text=auto
+*.joblib binary
+*.onnx binary
+*.cf32 binary
+*.wav binary
+*.png binary
+*.pdf binary
+*.ico binary
